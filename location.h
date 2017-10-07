@@ -1,5 +1,5 @@
 //
-// Created by Jakub on 06/10/2017.
+// Created by lemurpwned on 06/10/2017.
 //
 
 #ifndef CTHULU_GAME_LOCATION_H
@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "character.h"
 
 class Location{
 private:
@@ -19,10 +20,20 @@ private:
     bool status = false;
 
     std::vector<std::vector<int>> space_grid;
+    std::vector<Character> characters;
+
 public:
+    Location(const std::string &name, const std::string &desc);
+
     Location(const std::string &name, int length, int width);
 
-    Location(const std::string &name, const std::string &desc);
+    void setDescription(const std::string &description) {
+        Location::description = description;
+    }
+
+    void addCharacters(const Character &character){
+        characters.push_back(character);
+    }
 
     void setLength(int length) {
         Location::length = length;
@@ -56,11 +67,11 @@ public:
         Location::name = name;
     }
 
-    unsigned int getLength() const {
+    int getLength() const {
         return length;
     }
 
-    unsigned int getWidth() const {
+    int getWidth() const {
         return width;
     }
 

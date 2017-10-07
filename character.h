@@ -14,13 +14,21 @@ private:
     int hp = 100;
     bool alive = true;
 
+    std::string desctiption;
 protected:
-    int x;
-    int y;
+    int x = 0;
+    int y = 0;
 
 public:
     Character();
-    Character(const std::string &name) : name(name) {}
+
+    const std::string &getDesctiption() const {
+        return desctiption;
+    }
+
+    explicit Character(const std::string &name) : name(name) {};
+
+    Character(const std::string &name, const std::string &desc): name(name), desctiption(desc) {};
 
     virtual void introduction();
 

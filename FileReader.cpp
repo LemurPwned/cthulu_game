@@ -4,7 +4,6 @@
 
 #include "FileReader.h"
 #include <fstream>
-#include <cstdlib>
 #include <sstream>
 
 Location* FileReader::readLocationDesc() {
@@ -26,7 +25,7 @@ Location* FileReader::readLocationDesc() {
             name.append(line);
             attribute = false;
         }
-        else if (!attribute){
+        else{
             desc.append(line);
         }
     }
@@ -41,7 +40,21 @@ Character* FileReader::readCharacterDesc() {
         std::cout<<"There was an error while opening file"<<std::endl;
         exit(-1);
     }
-    std::string line;
 
-    return new Character("RANDOM");
+    std::string line;
+    int line_counter = 0;
+
+    std::string name;
+    std::string desc;
+
+    while(std::getline(file, line)){
+        if (line_counter%2 == 0){
+            name.append(line);
+        }
+        else if (line_counter%2 == 1){
+            desc.append(line);
+        }
+        line_counter ++;
+    }
+    return new Character(name, desc);
 }
