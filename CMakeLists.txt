@@ -3,5 +3,7 @@ project(cthulu_game)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES main.cpp character.h character.cpp location.cpp location.h hero.cpp hero.h FileReader.cpp FileReader.h level_assembler.cpp level_assembler.h)
+set(SOURCE_FILES main.cpp character.h character.cpp location.cpp location.h
+        hero.cpp hero.h FileReader.cpp FileReader.h level_assembler.cpp level_assembler.h
+        json/json.hpp)
 add_executable(cthulu_game ${SOURCE_FILES})

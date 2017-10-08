@@ -20,20 +20,24 @@ private:
     bool status = false;
 
     std::vector<std::vector<int>> space_grid;
-    std::vector<Character> characters;
+    std::vector<Character*> characters;
 
 public:
     Location(const std::string &name, const std::string &desc);
 
     Location(const std::string &name, int length, int width);
 
+    void introduction();
+
     void setDescription(const std::string &description) {
         Location::description = description;
     }
 
-    void addCharacters(const Character &character){
+    void addCharacters(Character *character){
         characters.push_back(character);
     }
+
+    void listCharacters();
 
     void setLength(int length) {
         Location::length = length;

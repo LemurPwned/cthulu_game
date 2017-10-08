@@ -5,6 +5,15 @@
 #include <iostream>
 #include "location.h"
 
+Location::Location(const std::string &name, int length, int width): name(std::move(name)),
+                                                                    length(length),
+                                                                    width(width) {};
+
+Location::Location(const std::string &name, const std::string &desc) : name(name), description(desc) {
+    length = 0;
+    width = 0;
+}
+
 void Location::fillSpaceGrid() {
     Location::space_grid.resize(getLength(), std::vector<int>(getWidth(), 0));
     for (int i = 0; i < getLength(); ++i) {
@@ -37,13 +46,36 @@ void Location::display(){
 
 }
 
-Location::Location(const std::string &name, int length, int width): name(std::move(name)),
-                                                                    length(length),
-                                                                    width(width) {};
-
-Location::Location(const std::string &name, const std::string &desc) : name(name), description(desc) {
-    length = 0;
-    width = 0;
+void Location::introduction() {
+    std::cout<<getName()<<std::endl;
+    std::cout<<getDescription()<<std::endl;
 }
+
+void Location::listCharacters(){
+    std::cout<<"In "<<getName()<<" there are some people\n"<<std::endl;
+    char selection;
+    while (true){
+        int option = 1;
+        for (auto *character : Location::characters) {
+            std::cout<<option<<") "<<character->getName()<<std::endl;
+            option ++;
+        }
+
+        std::cin>>selection;
+        int currently_selected = selection - '0'; //parse to int
+        if (currently_selected -1 < characters.size()){
+            Location::characters[currently_selected-1]->introduction();
+        }
+        else if (selection == 'q'){
+            std::cout<<"Leaving "<<getName()<<std::endl;
+            break;
+        }
+        else{
+            std::cout<<"Invalid input "<<selection<<std::endl;
+        }
+    }
+
+}
+
 
 
