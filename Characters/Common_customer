@@ -1,0 +1,8 @@
+{
+  "name": "Common customer",
+  "description": "Guy looks like the one who sits here all the time",
+  "dialog": [{"question" : "What are you doing here?",
+                      "answer": "Drinking. Duh! What is there else to do?"},
+                     {"question" : "Have you heard any news?",
+                      "answer": "The news are that you should be going now"}]
+}

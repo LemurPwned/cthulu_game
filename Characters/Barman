@@ -1,0 +1,8 @@
+{
+  "name": "Bartender",
+  "description": "A disgusting man, with a wide yellow grin.",
+  "dialog": [{"question" : "What are you doing here?",
+                      "answer": "You're stupid or what?"},
+                      {"question" : "Have you heard any news?",
+                      "answer": "Yup, the captain there is looking for a new crew"}]
+}
