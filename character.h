@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 class Character{
 private:
@@ -14,7 +15,10 @@ private:
     int hp = 100;
     bool alive = true;
 
-    std::string desctiption;
+    std::string description;
+    std::vector<std::string> dialog_options;
+    std::vector<std::string> dialog_answers;
+
 protected:
     int x = 0;
     int y = 0;
@@ -22,15 +26,29 @@ protected:
 public:
     Character();
 
-    const std::string &getDesctiption() const {
-        return desctiption;
-    }
-
     explicit Character(const std::string &name) : name(name) {};
 
-    Character(const std::string &name, const std::string &desc): name(name), desctiption(desc) {};
+    Character(const std::string &name, const std::string &desc): name(name), description(desc) {};
+
+    void loadCharacter(const std::string &filename);
 
     virtual void introduction();
+
+    void pushDialog(const std::string &dialog){
+        dialog_options.push_back(dialog);
+    }
+
+    void pushAnswers(const std::string &answer){
+        dialog_answers.push_back(answer);
+    }
+
+    std::string popDialog(int dialog_number){
+        return dialog_options[dialog_number];
+    }
+
+    std::string popAnswer(int answer_number){
+        return dialog_answers[answer_number];
+    }
 
     int getX() const {
         return x;
@@ -74,6 +92,14 @@ public:
 
     void setAlive(bool alive) {
         Character::alive = alive;
+    }
+
+    const std::string &getDescription() const {
+        return description;
+    }
+
+    void setDescription(const std::string &description) {
+        Character::description = description;
     }
 };
 #endif //CTHULU_GAME_CHARACTER_H
