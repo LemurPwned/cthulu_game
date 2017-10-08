@@ -10,19 +10,12 @@
 
 class LevelAssembler{
 private:
-    std::queue<Location> level_chain;
+    std::vector<Location*> level_chain;
 public:
     LevelAssembler();
 
     void createLevelChain();
 
-    Location getNextLocation();
-
-    void putNextLocation(Location &loc){
-        level_chain.push(loc);
-    };
-
-    void associateCharacters(Location &loc);
-
+    Location* pickPlace();
 };
 #endif //CTHULU_GAME_LEVEL_ASSEMBLER_H

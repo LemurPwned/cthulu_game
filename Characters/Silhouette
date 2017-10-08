@@ -1,0 +1,10 @@
+{
+  "name": "A strange silhouette",
+  "description": "As you approach, the shade seems more human-like. But you can't make it fully in the dark",
+  "dialog": [{"question" : "Who are you?",
+    "answer": "Does it matter? I used to build ships here. Long time ago twas."},
+    {"question" : "What are you doing now?",
+      "answer": "I am waiting for the captain."},
+    {"question": "Where is the captain?",
+     "answer": "He is in the tavern I presume, looking for a new crew. Go find him there"}]
+}

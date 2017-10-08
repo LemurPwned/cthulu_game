@@ -11,22 +11,48 @@ LevelAssembler::LevelAssembler() {
 }
 
 void LevelAssembler::createLevelChain() {
-    std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)";
+    std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //change here to get proper paths
     FileReader reader(content_pack);
-    std::string locations_list[] = {R"(/Locations/Tavern)"};
-    //std::string characters_list[] = {R"(/Characters/Barman)", R"(/Characters/Common_customer)"};
-    int num_locs = 1;
-    int num_chars = 2;
+    std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)"};
+    int num_locs = 2;
     for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
-        location_one->introduction();
-        location_one->listCharacters();
+        level_chain.push_back(location_one); //fill location chain
+    }
+    while(true) {
+        Location *picked = pickPlace();
+        if (picked == nullptr){ //provides quitting capability
+            break;
+        }
+        picked->introduction();
+        picked->listCharacters();
     }
 }
 
-Location LevelAssembler::getNextLocation() {
-    Location to_return = LevelAssembler::level_chain.front();
-    LevelAssembler::level_chain.pop();
-    return to_return;
+Location* LevelAssembler::pickPlace(){
+    std::cout<<"Where you choose to go?"<<std::endl;
+    char selection;
+    int selected_num;
+    while(true){
+        int i = 1;
+        //display possible locations
+        for (Location *loc: level_chain) {
+            std::cout<<i<<") "<<loc->getName()<<std::endl;
+            i++;
+        }
+        std::cin>>selection;
+        selected_num = selection - '0'; //convert to 0
+        if (selected_num-1 < level_chain.size()) {
+            break;
+        }
+
+        else if (selection == 'q'){
+            return nullptr;
+        }
+        else{
+            std::cout<<"Invalid input, try again"<<std::endl;
+        }
+    }
+    return level_chain[selected_num-1];
 }
 
