@@ -3,58 +3,35 @@
 //
 
 #include "FileReader.h"
+#include "json/json.hpp"
 #include <fstream>
-#include <sstream>
 
-Location* FileReader::readLocationDesc() {
-    const std::string name_prefix = "Name:";
-    const std::string desc_prefix = "Desc:";
-    std::ifstream file;
-    file.open(getFilename());
-    if (!file){
-        std::cout<<"There was an error while opening file"<<std::endl;
-        exit(-1);
-    }
-    std::string line;
-
-    std::string name;
-    std::string desc;
-    bool attribute = true;
-    while (std::getline(file, line)){
-        if (attribute){
-            name.append(line);
-            attribute = false;
-        }
-        else{
-            desc.append(line);
+Location* FileReader::jsonLoadLocation(const std::string &filename){
+    std::ifstream stream(getPath() + filename);
+    nlohmann::json j;
+    stream >> j; //parse stream to json struct
+    Location *location = new Location(j["name"], j["description"]);
+    std::string the_path;
+    for (auto character: j["characters"]) {
+        if (character["path"].is_string()){
+            the_path = character["path"];
+            Character *character_one = jsonLoadCharacter(getPath() + the_path);
+            location->addCharacters(character_one);
         }
     }
-
-    return new Location(name, desc);
+    return location;
 }
 
-Character* FileReader::readCharacterDesc() {
-    std::ifstream file;
-    file.open(getFilename());
-    if (!file){
-        std::cout<<"There was an error while opening file"<<std::endl;
-        exit(-1);
+Character *FileReader::jsonLoadCharacter(const std::string &filename) {
+    std::ifstream stream(filename);
+    nlohmann::json j;
+    stream >> j; //parse stream to json struct
+    Character *character = new Character(j["name"], j["description"]);
+    nlohmann::json options = j;
+    for (auto iterator : j["dialog"]){
+        character->pushDialog(iterator["question"]); //put into ordered vectors
+        character->pushAnswers(iterator["answer"]);
     }
-
-    std::string line;
-    int line_counter = 0;
-
-    std::string name;
-    std::string desc;
-
-    while(std::getline(file, line)){
-        if (line_counter%2 == 0){
-            name.append(line);
-        }
-        else if (line_counter%2 == 1){
-            desc.append(line);
-        }
-        line_counter ++;
-    }
-    return new Character(name, desc);
+    return character;
 }
+

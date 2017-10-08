@@ -12,21 +12,23 @@
 
 class FileReader{
 private:
-    std::string filename;
+    std::string path = "";
 
 public:
-    FileReader(std::string filename): filename(std::move(filename)) {};
+    FileReader() = default;
 
-    Location* readLocationDesc();
+    explicit FileReader(std::string folder_path): path(folder_path) {}
 
-    Character* readCharacterDesc();
+    Location* jsonLoadLocation(const std::string &filename);
 
-    const std::string &getFilename() const {
-        return filename;
+    Character* jsonLoadCharacter(const std::string &filename);
+
+    const std::string getPath() {
+        return path;
     }
 
-    void setFilename(const std::string &filename) {
-        FileReader::filename = filename;
+    void setPath(const std::string &filepath) {
+        FileReader::path = filepath;
     }
 };
 #endif //CTHULU_GAME_FILEREADER_H
