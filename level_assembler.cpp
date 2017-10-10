@@ -12,12 +12,14 @@ LevelAssembler::LevelAssembler() {
 
 void LevelAssembler::createLevelChain() {
     std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //change here to get proper paths
+    std::cout<<"GAME FILES PATH: " <<content_pack<<std::endl;
     FileReader reader(content_pack);
-    std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)"};
-    int num_locs = 2;
+    std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
+    int num_locs = 3; // remember to update here
 
     //initialize hero state
     Hero *hero = new Hero ("A man");
+    hero->setStrength(105);
     for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
         level_chain.push_back(location_one); //fill location chain

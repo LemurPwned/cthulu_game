@@ -17,8 +17,8 @@ private:
     std::string description;
 
     int hp = 100;
-    bool alive = true;
 
+protected:
     std::string reacts_to = "None";
     std::vector<EventChain*> event_chain;
     int current_state = 0;
@@ -59,41 +59,41 @@ public:
         current_state = state;
     }
 
-    void introduction(Hero *hero_state);
+    virtual void introduction(Hero *hero_state);
 
-    const std::string &getName() const {
+    virtual const std::string &getName() const {
         return name;
     }
 
-    void setName(const std::string &name) {
+    virtual void setName(const std::string &name) {
         Character::name = name;
     }
 
-    int getHp() const {
+    virtual int getHp() const {
         return hp;
     }
 
-    void setHp(int hp) {
+    virtual void setHp(int hp) {
         Character::hp = hp;
         if (Character::hp < 0){
             std::cout<<Character::name<<" has died"<<std::endl;
-            Character::alive = false;
         }
     }
 
-    bool isAlive() const {
-        return alive;
+    virtual bool isAlive() const {
+        if (hp < 0){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
-    void setAlive(bool alive) {
-        Character::alive = alive;
-    }
-
-    const std::string &getDescription() const {
+    virtual const std::string &getDescription() const {
         return description;
     }
 
-    void setDescription(const std::string &description) {
+    virtual void setDescription(const std::string &description) {
         Character::description = description;
     }
 };

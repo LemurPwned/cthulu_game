@@ -3,6 +3,7 @@
 //
 
 #include "FileReader.h"
+#include "opponent.h"
 #include <fstream>
 
 Location* FileReader::jsonLoadLocation(const std::string &filename){
@@ -22,11 +23,17 @@ Location* FileReader::jsonLoadLocation(const std::string &filename){
 }
 
 Character *FileReader::jsonLoadCharacter(const std::string &filename) {
-    std::string filename2 = R"(/home/lemurpwned/repos/cthulu_game/Characters/Captain)";
     std::ifstream stream(filename);
     nlohmann::json j;
     stream >> j; //parse stream to json struct
-    Character *character = new Character(j["name"], j["description"]);
+    Character *character;
+    if (j["type"].is_null()){
+        character = new Character(j["name"], j["description"]);
+    }
+    else if (j["type"] == "mob"){
+        character = new Opponent(j["name"], j["description"], j["strength"]);
+        //ugh such polymorphism
+    }
     nlohmann::json options = j;
 
     std::vector<EventChain*> chain = jsonFormEvent(j["dialog"]);
@@ -49,7 +56,8 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
         Event *temp_event;
         for (auto option : dialog["option"]){
             i++;
-            if (option["item"].is_null()){ // use standard constructor if no item given during the dialogue
+            if (option["item"].is_null()){
+                // use standard constructor if no item given during the dialogue
                 temp_event = new Event(i, "dialog", option["question"], option["answer"]);
             }
             else{

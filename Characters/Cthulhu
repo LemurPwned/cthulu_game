@@ -1,0 +1,31 @@
+{
+  "name": "Cthulhu",
+  "description": "Ancient monster, praised by cultists in this place. You should pray to not see it ever again",
+  "react": "Cultists amulet",
+  "type" : "mob",
+  "strength": 80,
+  "dialog": [
+    {
+      "id": 1,
+      "option": [
+        {
+          "question": "What is that?",
+          "answer": "(You spoke that aloud but you hear words forming in your ears) ...Something you cannot comprehend..."
+        },
+        {
+          "question": "Yuck!",
+          "answer": "(Deep voice rings in your mind) It's pure evil you're afraid of? Look back then"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "option": [
+        {
+          "question": "What should I do now?",
+          "answer": "Be my servant now, comply and serve!"
+        }
+      ]
+    }
+  ]
+}

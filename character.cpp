@@ -9,7 +9,6 @@
 
 Character::Character() {
     Character::name = "A stranger";
-    Character::alive = true;
     Character::hp = 100;
 }
 
@@ -23,8 +22,10 @@ void Character::introduction(Hero *hero_state) {
     }
     //standard character introduction
     std::cout<<"This person's name is: "<<getName()<<std::endl;
-    //std::cout<<"He would not admit it but his hp is currently at "<<getHp()<<std::endl;
-    if (!isAlive()) std::cout<<"He is totally dead"<<std::endl;
+    if (!isAlive()) {
+        std::cout<<"He is totally dead"<<std::endl;
+        return;
+    }
     std::cout<<getDescription()<<std::endl;
 
     while(true){
@@ -44,6 +45,7 @@ void Character::introduction(Hero *hero_state) {
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()){
             std::cout<<"-"<<event_chain[current_state]->getChain()[selected_dialog-1]->getAnswer()<<std::endl;
             if (event_chain[current_state]->getChain()[selected_dialog-1]->isEvent_item()){
+                //item reception happens here
                 std::cout<<"Received: "<<event_chain[current_state]->getChain()[selected_dialog-1]->getItem()<<std::endl;
                 hero_state->setItem(event_chain[current_state]->getChain()[selected_dialog-1]->getItem());
             }
