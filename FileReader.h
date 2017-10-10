@@ -9,6 +9,9 @@
 #include <utility>
 #include "location.h"
 #include "character.h"
+#include "Event.h"
+#include "json/json.hpp"
+#include "EventChain.h"
 
 class FileReader{
 private:
@@ -28,7 +31,9 @@ public:
     }
 
     void setPath(const std::string &filepath) {
-        FileReader::path = filepath;
+        path = filepath;
     }
+
+    std::vector<EventChain*> jsonFormEvent(nlohmann::json dialog);
 };
 #endif //CTHULU_GAME_FILEREADER_H
