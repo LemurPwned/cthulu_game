@@ -1,0 +1,6 @@
+{
+  "name": "Ship",
+  "description": "Old, steamship from the period of civil war. It is told, slaves were transported in it",
+  "characters": [{"path": "/Characters/Captain"},
+                  {"path": "/Characters/JohnDoe"}]
+}

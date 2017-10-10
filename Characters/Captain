@@ -1,0 +1,31 @@
+{
+  "name": "Captain",
+  "description": "Well dressed in a naval uniform, sharply-cut beard, impressive posture. Sure, he must be the captain",
+  "react": "Captain's pass",
+  "dialog": [
+    {
+      "id": 1,
+      "option": [
+        {
+          "question": "What are you doing here?",
+          "answer": "Looking for the crew! Want ya' conscript?",
+          "item": "Captain's pass",
+          "type": "decision"
+        },
+        {
+          "question": "Have you heard any news?",
+          "answer": "Aye, there is a monster in the sea. Some'ay it's some ancient evil. I'ay it is bullshit"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "option": [
+        {
+          "question": "What should I do now?",
+          "answer": "Go to the shipyard, there's John. He'll know what to do?"
+        }
+      ]
+    }
+    ]
+ }

@@ -2,5 +2,6 @@
   "name": "Local tavern",
   "description": "Dark, illuminiscent place. Wind howling candles flicker, so there must be a window opened somewhere",
   "characters": [{"path": "/Characters/Common_customer"},
-                  {"path": "/Characters/Barman"}]
+                  {"path": "/Characters/Barman"},
+                  {"path": "/Characters/Captain"}]
 }
