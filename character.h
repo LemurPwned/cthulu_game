@@ -8,20 +8,21 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "EventChain.h"
+#include "hero.h"
 
 class Character{
 private:
     std::string name;
+    std::string description;
+
     int hp = 100;
     bool alive = true;
 
-    std::string description;
-    std::vector<std::string> dialog_options;
-    std::vector<std::string> dialog_answers;
-
-protected:
-    int x = 0;
-    int y = 0;
+    std::string reacts_to = "None";
+    std::vector<EventChain*> event_chain;
+    int current_state = 0;
+    int max_state = current_state+1;
 
 public:
     Character();
@@ -30,41 +31,35 @@ public:
 
     Character(const std::string &name, const std::string &desc): name(name), description(desc) {};
 
-    void loadCharacter(const std::string &filename);
-
-    virtual void introduction();
-
-    void pushDialog(const std::string &dialog){
-        dialog_options.push_back(dialog);
+    void setChain(std::vector <EventChain*> &chain){
+        event_chain = chain;
     }
 
-    void pushAnswers(const std::string &answer){
-        dialog_answers.push_back(answer);
+    void setReactive(std::string item){
+        reacts_to = item;
     }
 
-    std::string popDialog(int dialog_number){
-        return dialog_options[dialog_number];
+    int getMax_state() const {
+        return max_state;
     }
 
-    std::string popAnswer(int answer_number){
-        return dialog_answers[answer_number];
+    void setMax_state(int max_state) {
+        Character::max_state = max_state;
     }
 
-    int getX() const {
-        return x;
+    std::string getReaction(){
+        return reacts_to;
     }
 
-    void setX(int x) {
-        Character::x = x;
+    EventChain* getChain(){
+        return event_chain[current_state];
     }
 
-    int getY() const {
-        return y;
+    void setCurrentState(int state){
+        current_state = state;
     }
 
-    void setY(int y) {
-        Character::y = y;
-    }
+    void introduction(Hero *hero_state);
 
     const std::string &getName() const {
         return name;
