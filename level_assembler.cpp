@@ -15,6 +15,9 @@ void LevelAssembler::createLevelChain() {
     FileReader reader(content_pack);
     std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)"};
     int num_locs = 2;
+
+    //initialize hero state
+    Hero *hero = new Hero ("A man");
     for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
         level_chain.push_back(location_one); //fill location chain
@@ -25,7 +28,7 @@ void LevelAssembler::createLevelChain() {
             break;
         }
         picked->introduction();
-        picked->listCharacters();
+        picked->listCharacters(hero);
     }
 }
 
@@ -55,4 +58,5 @@ Location* LevelAssembler::pickPlace(){
     }
     return level_chain[selected_num-1];
 }
+
 

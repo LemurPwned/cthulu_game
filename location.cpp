@@ -51,7 +51,7 @@ void Location::introduction() {
     std::cout<<getDescription()<<std::endl;
 }
 
-void Location::listCharacters(){
+void Location::listCharacters(Hero *hero_state){
     std::cout<<"In "<<getName()<<" there are some people\n"<<std::endl;
     char selection;
     while (true){
@@ -64,7 +64,8 @@ void Location::listCharacters(){
         std::cin>>selection;
         int currently_selected = selection - '0'; //parse to int
         if (currently_selected -1 < characters.size()){
-            Location::characters[currently_selected-1]->introduction();
+            // introduce the selected character here (character loop is invoked)
+            Location::characters[currently_selected-1]->introduction(hero_state);
         }
         else if (selection == 'q'){
             std::cout<<"Leaving "<<getName()<<std::endl;

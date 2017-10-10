@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 #include "character.h"
+#include "hero.h"
 
 class Location{
 private:
@@ -37,7 +38,7 @@ public:
         characters.push_back(character);
     }
 
-    void listCharacters();
+    void listCharacters(Hero *hero_state);
 
     void setLength(int length) {
         Location::length = length;
