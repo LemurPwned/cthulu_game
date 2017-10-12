@@ -6,6 +6,12 @@
 #include "level_assembler.h"
 #include "FileReader.h"
 
+/*
+ * TODO:
+ * add hero-death loop exit
+ * add Cthulhu amulet triggering
+ */
+
 LevelAssembler::LevelAssembler() {
     createLevelChain();
 }
@@ -25,6 +31,7 @@ void LevelAssembler::createLevelChain() {
         level_chain.push_back(location_one); //fill location chain
     }
     while(true) {
+        if (!hero->isAlive()) return; // quit outer loop
         Location *picked = pickPlace();
         if (picked == nullptr){ //provides quitting capability
             break;
@@ -60,5 +67,4 @@ Location* LevelAssembler::pickPlace(){
     }
     return level_chain[selected_num-1];
 }
-
 

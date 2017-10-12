@@ -15,16 +15,15 @@ private:
     int eventId;
     std::string event_type;
     bool event_item = false;
-    bool event_decision = false;
 
     std::string question;
     std::string answer;
     std::string item;
 
-    std::vector<std::string> decision;
-
 public:
     Event(int eventId, std::string event_type, std::string question, std::string answer, std::string item);
+
+    Event(int eventId, std::string event_type, std::string question, std::string answer);
 
     bool isEvent_item() const;
 
@@ -33,13 +32,6 @@ public:
     const std::string &getItem() const;
 
     void setItem(const std::string &item);
-
-    Event(int eventId, std::string event_type, std::string question, std::string answer);
-
-    void addDecision(const std::string &decision){
-        event_decision = true;
-        Event::decision.push_back(decision);
-    }
 
     void printEvent(){
         std::cout<<"Event: "<<eventId<<" type "<<event_type<<" question: "<<question<<std::endl;

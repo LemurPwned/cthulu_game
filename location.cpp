@@ -52,9 +52,14 @@ void Location::introduction() {
 }
 
 void Location::listCharacters(Hero *hero_state){
+    if (!hero_state->isAlive()) return;
     std::cout<<"In "<<getName()<<" there are some people\n"<<std::endl;
     char selection;
     while (true){
+        if (!hero_state->isAlive()){
+            std::cout<<"\n DEAD \n"<<std::endl;
+            return;
+        }
         int option = 1;
         for (auto *character : Location::characters) {
             std::cout<<option<<") "<<character->getName()<<std::endl;

@@ -22,6 +22,8 @@ public:
 
     void retaliate(Hero *hero_state);
 
+    void defend(Hero *hero_state);
+
     const std::string &getName() const override {
         return Character::getName();
     }

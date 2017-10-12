@@ -5,6 +5,26 @@
 #include "opponent.h"
 #include <random>
 
+void Opponent::defend(Hero *hero_state) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution dist(1, 10);
+    //initialize c++11 random magic
+    std::cout<<"You choose to take on defensive stance"<<std::endl;
+
+    int damage = hero_state->getStrength()*(dist(gen)) - getStrength()*dist(gen)/10;
+    if (damage < 0) damage = 0;
+    std::cout<<getName()<<" attacks and deals "<<damage<<std::endl;
+    hero_state->setHp(getHp()-damage);
+    if (hero_state->isAlive()){
+        std::cout<<"Hp left: "<<hero_state->getHp()<<std::endl;
+    }
+    else{
+        std::cout<<"A deadly blow was delivered, you had no chance surviving...";
+        return;
+    }
+}
+
 void Opponent::retaliate(Hero *hero_state) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -38,7 +58,7 @@ void Opponent::retaliate(Hero *hero_state) {
 
 void Opponent::introduction(Hero *hero_state) {
     if (hero_state->getItem() == getReaction()){
-        if (! (hero_state->getItem() == "None")){
+        if (!(hero_state->getItem() == "None")){
             if (Opponent::current_state < max_state){
                 setCurrentState(++Opponent::current_state);
             }
@@ -66,7 +86,9 @@ void Opponent::introduction(Hero *hero_state) {
             std::cout<<available_answers<<") "<<i->getQuestion()<<std::endl;
             available_answers++;
         }
-        std::cout<<"a) Attack"<<std::endl;
+        std::cout<<"a) Attack"<<std::endl; // extra options for the opponent type
+        std::cout<<"d) Defend"<<std::endl;
+
         char selection;
         std::cin>>selection;
         int selected_dialog = selection - '0'; //convert to int, access to vector
@@ -89,6 +111,16 @@ void Opponent::introduction(Hero *hero_state) {
                 std::cout<<"You have "<<hero_state->getHp()<<" hp left"<<std::endl;
             }
         }
+        else if (selection == 'd'){
+            defend(hero_state); // defend form a perspective of a hero
+            if (!hero_state->isAlive()){
+                std::cout<<"Your journey has reached a dead end. Rest now"<<std::endl;
+                return;
+            }
+            else{
+                std::cout<<"You have "<<hero_state->getHp()<<" hp left"<<std::endl;
+            }
+        }
         else if (selection == 'q'){
             std::cout<<"Chose to quit"<<std::endl;
             break;
@@ -98,3 +130,4 @@ void Opponent::introduction(Hero *hero_state) {
         }
     }
 }
+
