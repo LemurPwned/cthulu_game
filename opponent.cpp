@@ -12,15 +12,12 @@ void Opponent::defend(Hero *hero_state) {
     //initialize c++11 random magic
     std::cout<<"You choose to take on defensive stance"<<std::endl;
 
-    int damage = hero_state->getStrength()*(dist(gen)) - getStrength()*dist(gen)/10;
+    int damage = getStrength()*dist(gen)/10 - hero_state->getStrength()*(dist(gen)/5);
     if (damage < 0) damage = 0;
-    std::cout<<getName()<<" attacks and deals "<<damage<<std::endl;
-    hero_state->setHp(getHp()-damage);
-    if (hero_state->isAlive()){
-        std::cout<<"Hp left: "<<hero_state->getHp()<<std::endl;
-    }
-    else{
-        std::cout<<"A deadly blow was delivered, you had no chance surviving...";
+    std::cout<<getName()<<" attacks and deals "<<damage<<" damage"<<std::endl;
+    hero_state->setHp(hero_state->getHp()-damage);
+    if (!hero_state->isAlive()){
+        std::cout<<"\nA deadly blow was delivered, you had no chance surviving...\n";
         return;
     }
 }
@@ -31,9 +28,6 @@ void Opponent::retaliate(Hero *hero_state) {
     std::uniform_int_distribution dist(1, 10);
     //initialize c++11 random magic
     int damage;
-    std::cout<<"Your strength "<<hero_state->getStrength()<<std::endl;
-    std::cout<<getName()<<" strength "<<getStrength()<<std::endl;
-    std::cout<<"SEED "<<dist(gen)<<std::endl;
     if (hero_state->getStrength() < getStrength()){
         damage = hero_state->getStrength()*dist(gen)/10;
         std::cout<<"You're weaker than "<<getName()<<" so you'll receive penalty"<<std::endl;
@@ -77,7 +71,7 @@ void Opponent::introduction(Hero *hero_state) {
             std::cout<<"He is totally dead"<<std::endl;
             return;
         }
-        std::cout<<"What do you wish to talk about with "<<getName()<<"?"<<std::endl;
+        std::cout<<"What do you wish to do about "<<getName()<<"?"<<std::endl;
         //list dialogs here
         //check if dialogs exist?
         int available_answers = 1;
