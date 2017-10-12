@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "location.h"
+#include "FileReader.h"
 
 Location::Location(const std::string &name, int length, int width): name(std::move(name)),
                                                                     length(length),
@@ -53,7 +54,7 @@ void Location::introduction() {
 
 void Location::listCharacters(Hero *hero_state){
     if (!hero_state->isAlive()) return;
-    std::cout<<"In "<<getName()<<" there are some people\n"<<std::endl;
+    std::cout<<"\nThere is someone... or something... in the "<<getName()<<std::endl;
     char selection;
     while (true){
         if (!hero_state->isAlive()){
@@ -65,12 +66,16 @@ void Location::listCharacters(Hero *hero_state){
             std::cout<<option<<") "<<character->getName()<<std::endl;
             option ++;
         }
-
         std::cin>>selection;
         int currently_selected = selection - '0'; //parse to int
         if (currently_selected -1 < characters.size()){
             // introduce the selected character here (character loop is invoked)
             Location::characters[currently_selected-1]->introduction(hero_state);
+            if (teleport_dest != "None" && hero_state->isTeleport()){
+                teleport(hero_state);
+                Location::characters[currently_selected-1];
+                hero_state->setTeleport(false); //disable teleport
+            }
         }
         else if (selection == 'q'){
             std::cout<<"Leaving "<<getName()<<std::endl;
@@ -81,6 +86,14 @@ void Location::listCharacters(Hero *hero_state){
         }
     }
 
+}
+
+void Location::teleport(Hero *hero_state) {
+    std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //weak spot
+    FileReader fr(content_pack);
+    Location *location = fr.jsonLoadLocation(teleport_dest);
+    location->introduction();
+    location->listCharacters(hero_state);
 }
 
 

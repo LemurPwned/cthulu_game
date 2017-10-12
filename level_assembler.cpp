@@ -25,7 +25,7 @@ void LevelAssembler::createLevelChain() {
 
     //initialize hero state
     Hero *hero = new Hero ("A man");
-    hero->setStrength(105);
+    hero->setStrength(70);
     for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
         level_chain.push_back(location_one); //fill location chain

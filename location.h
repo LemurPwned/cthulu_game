@@ -23,12 +23,19 @@ private:
     std::vector<std::vector<int>> space_grid;
     std::vector<Character*> characters;
 
+    std::string teleport_dest = "None";
 public:
     Location(const std::string &name, const std::string &desc);
 
     Location(const std::string &name, int length, int width);
 
     void introduction();
+
+    void teleport(Hero *hero_state);
+
+    void setTeleportDestination(std::string teleport_destination){
+        teleport_dest = teleport_destination;
+    }
 
     void setDescription(const std::string &description) {
         Location::description = description;
@@ -39,14 +46,6 @@ public:
     }
 
     void listCharacters(Hero *hero_state);
-
-    void setLength(int length) {
-        Location::length = length;
-    }
-
-    void setWidth(int width) {
-        Location::width = width;
-    }
 
     bool isStatus() const {
         return status;
