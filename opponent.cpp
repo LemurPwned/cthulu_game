@@ -25,7 +25,7 @@ void Opponent::defend(Hero *hero_state) {
 void Opponent::retaliate(Hero *hero_state) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution dist(1, 10);
+    std::uniform_int_distribution dist(1, 5);
     //initialize c++11 random magic
     int damage;
     if (hero_state->getStrength() < getStrength()){
@@ -51,11 +51,9 @@ void Opponent::retaliate(Hero *hero_state) {
 }
 
 void Opponent::introduction(Hero *hero_state) {
-    if (hero_state->getItem() == getReaction()){
-        if (!(hero_state->getItem() == "None")){
-            if (Opponent::current_state < max_state){
-                setCurrentState(++Opponent::current_state);
-            }
+    for (int i = 0; i < reaction_set.size(); i++){
+        if (hero_state->isInInventory(reaction_set[i])){
+            setCurrentState(i+1);
         }
     }
     //standard opponent introduction
@@ -89,10 +87,17 @@ void Opponent::introduction(Hero *hero_state) {
 
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()) {
             std::cout << "-" << event_chain[current_state]->getChain()[selected_dialog - 1]->getAnswer() << std::endl;
-            if (event_chain[current_state]->getChain()[selected_dialog - 1]->isEvent_item()) {
-                std::cout << "Received: " << event_chain[current_state]->getChain()[selected_dialog - 1]->getItem()
-                          << std::endl;
-                hero_state->setItem(event_chain[current_state]->getChain()[selected_dialog - 1]->getItem());
+            if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
+                std::cout<<"EFFECT IS ENABLED"<<std::endl;
+                hero_state->setFear_level(event_chain[current_state]-> \
+                getChain()[selected_dialog-1]->getEffect());
+                // remove the effect
+                event_chain[current_state]->getChain()[selected_dialog-1]->setEffect(0);
+            }
+            if (event_chain[current_state]->getChain()[selected_dialog-1]->isTeleport()){
+                hero_state->setTeleport(true); //hero should be teleported somewhere
+                event_chain[current_state]->getChain()[selected_dialog-1]->disableTeleport();
+                //teleportation event is triggered only once
             }
         }
         else if(selection == 'a'){
