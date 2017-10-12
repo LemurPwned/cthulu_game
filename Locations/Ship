@@ -1,6 +1,6 @@
 {
   "name": "Ship",
-  "description": "Old, steamship from the period of civil war. It is told, slaves were transported in it",
+  "description": "Old, steamship from the period of civil war. It was used to transport slaves down Mississippi river",
   "characters": [{"path": "/Characters/Captain"},
                   {"path": "/Characters/JohnDoe"}]
 }
