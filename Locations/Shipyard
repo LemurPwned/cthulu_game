@@ -1,5 +1,7 @@
 {
   "name": "Shipyard",
-  "description": "Abandoned shipyard. Large ship docks glitter in moonlight. There is no reason to be here, yet you see a human silhouette",
-  "characters": [{"path": "/Characters/Silhouette"}]
+  "description": ["Abandoned shipyard. Large ship docks glitter in moonlight.",
+    "There is no reason to be here, yet you see a human silhouette"],
+  "characters": [{"path": "/Characters/Silhouette"}],
+  "teleport": "/Locations/Ship"
 }

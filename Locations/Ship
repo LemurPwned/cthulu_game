@@ -1,6 +1,8 @@
 {
   "name": "Ship",
-  "description": "Old, steamship from the period of civil war. It was used to transport slaves down Mississippi river",
-  "characters": [{"path": "/Characters/Captain"},
-                  {"path": "/Characters/JohnDoe"}]
+  "description": ["Old, steamship from the period of civil war.",
+          "It was used to transport slaves down this very Mississippi river.",
+          "Captain's name happens to be Ahab. He goes around the ship, often climbs on the nest",
+          "as if he was looking for something. Screems all the time \"Come ywa montster! Match me again!\""],
+  "characters": [{"path": "/Characters/Ahab"}]
 }

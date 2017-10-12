@@ -1,6 +1,7 @@
 {
   "name": "Local tavern",
-  "description": "Dark, illuminiscent place. Wind howling candles flicker, so there must be a window opened somewhere",
+  "description": ["Dark, illuminiscent place. Wind howling candles flicker, so there must be a window opened somewhere",
+                   "A well-built man stands behind the bar, some guest is accompanying him, though they do not talk"],
   "characters": [{"path": "/Characters/Common_customer"},
                   {"path": "/Characters/Barman"},
                   {"path": "/Characters/Captain"}]

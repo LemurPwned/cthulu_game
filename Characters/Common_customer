@@ -11,7 +11,8 @@
         },
         {
           "question" : "Have you heard any news?",
-          "answer": "The news are that you should be going now"
+          "answer": "The news are that you should be going now",
+          "effect": 5
         }
       ]
     }

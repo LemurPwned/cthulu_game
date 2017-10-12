@@ -1,0 +1,46 @@
+{
+  "name": "Ahab",
+  "description": "The capitan's was Ahab, how ironic",
+  "react": ["Warning", "Cultists amulet"],
+  "dialog": [
+    {
+      "id": 1,
+      "option": [
+        {
+          "question": "What are you doing?",
+          "answer": "Ha! This bastard will come to his end. Tis but a large squid, isn't it?"
+        },
+        {
+          "question": "Why you call him?",
+          "answer": ["Him? It's Cthulhu, he's not just a regular squid - it's an ancient kraken.\n",
+                     "Biggest bastard, I've ever seen. Long time ago, it took my ship, now I shall take his life"],
+          "effect": 30,
+          "item": "Warning"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "option": [
+        {
+          "question": "(a large creature pops out behind Ahab) What is that?",
+          "answer": ["(Behind Ahab a larger creature emerges - this must be the monster he was calling)\n" ,
+                  "(captain turns around and in a moment of shock, throws himself at the monster with a harpoon)\n",
+                  "(after a short fight they both disappear in the depths of the ocean.)\n",
+                  "(you notice Ahab has left a amulet in a fervor of battle. You pick it up from the deck)\n"],
+          "item" : "Cultists amulet"
+        }
+      ]
+    },
+    {
+      "id" : 3,
+      "option": [
+        {
+          "question": "(Ahab is no more ... You must sail back now, ... Ahab is dead)",
+          "answer": "Leave the ship",
+          "effect": 30
+        }
+      ]
+    }
+  ]
+}

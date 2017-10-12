@@ -1,5 +1,6 @@
 {
   "name": "A sunken cave",
-  "description": "It's dark here, you light up a torch and see a spacious room carved in the stone, half is underwater",
+  "description": ["It's dark here, you light up a torch and see a spacious room carved in the stone, half is underwater",
+                  "Probably nice place to have meetings if you happend to be a part of undercover organization"],
   "characters": [{"path": "/Characters/Cthulhu"}]
 }

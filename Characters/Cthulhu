@@ -10,11 +10,13 @@
       "option": [
         {
           "question": "What is that?",
-          "answer": "(You spoke that aloud but you hear words forming in your ears) ...Something you cannot comprehend..."
+          "answer": "(You spoke that aloud but you hear words forming in your ears) ...Something you cannot comprehend...",
+          "effect": 10
         },
         {
           "question": "Yuck!",
-          "answer": "(Deep voice rings in your mind) It's pure evil you're afraid of? Look back then"
+          "answer": "(Deep voice rings in your mind) It's pure evil you're afraid of? Look back then",
+          "effect": 20
         }
       ]
     },
@@ -22,8 +24,10 @@
       "id": 2,
       "option": [
         {
-          "question": "What should I do now?",
-          "answer": "Be my servant now, comply and serve!"
+          "question": "(you entered the cave in silence, you recognize the monster that took Ahab",
+          "answer": ["(Cthulhu sees your amulet, it groans in a deep voice)",
+                    "Be my servant now, comply and serve! "],
+          "effect": -200
         }
       ]
     }
