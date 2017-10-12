@@ -19,7 +19,8 @@ private:
     int hp = 100;
 
 protected:
-    std::string reacts_to = "None";
+    std::vector<std::string> reaction_set;
+
     std::vector<EventChain*> event_chain;
     int current_state = 0;
     int max_state = current_state+1;
@@ -35,10 +36,6 @@ public:
         event_chain = chain;
     }
 
-    void setReactive(std::string item){
-        reacts_to = item;
-    }
-
     int getMax_state() const {
         return max_state;
     }
@@ -47,16 +44,20 @@ public:
         Character::max_state = max_state;
     }
 
-    std::string getReaction(){
-        return reacts_to;
-    }
-
     EventChain* getChain(){
         return event_chain[current_state];
     }
 
     void setCurrentState(int state){
         current_state = state;
+    }
+
+    void pushReaction(std::string reaction){
+        reaction_set.push_back(reaction);
+    }
+
+    std::vector<std::string> getReactionList(){
+        return reaction_set;
     }
 
     virtual void introduction(Hero *hero_state);

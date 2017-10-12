@@ -15,15 +15,26 @@ private:
     int eventId;
     std::string event_type;
     bool event_item = false;
+    bool event_effect = false;
+    bool teleport = false;
 
     std::string question;
     std::string answer;
     std::string item;
+    int effect;
 
 public:
-    Event(int eventId, std::string event_type, std::string question, std::string answer, std::string item);
+    explicit Event(int eventId, std::string event_type, std::string question, std::string answer,\
+                    int effect);
+
+    explicit Event(int eventId, std::string event_type, std::string question, std::string answer, \
+                    std::string item);
 
     Event(int eventId, std::string event_type, std::string question, std::string answer);
+
+    bool isTeleport() const{
+        return teleport;
+    }
 
     bool isEvent_item() const;
 
@@ -41,8 +52,21 @@ public:
         return question;
     }
 
+    bool isEffect() const;
+
+    void setEvent_effect(bool event_effect);
+
+    int getEffect() const;
+
+    void setEffect(int effect);
+
     const std::string &getAnswer() const {
         return answer;
     }
+
+
+    void setTeleport(bool teleportation);
+
+    void disableTeleport();
 };
 #endif //CTHULU_GAME_EVENT_H

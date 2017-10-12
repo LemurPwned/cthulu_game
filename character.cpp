@@ -13,11 +13,9 @@ Character::Character() {
 }
 
 void Character::introduction(Hero *hero_state) {
-    if (hero_state->getItem() == getReaction()){
-        if (! (hero_state->getItem() == "None")){
-            if (Character::current_state < max_state){
-                setCurrentState(++Character::current_state);
-            }
+    for (int i = 0; i < reaction_set.size(); i++){
+        if (hero_state->isInInventory(reaction_set[i])){
+            setCurrentState(i+1);
         }
     }
     //standard character introduction
@@ -41,13 +39,27 @@ void Character::introduction(Hero *hero_state) {
         char selection;
         std::cin>>selection;
         int selected_dialog = selection - '0'; //convert to int, access to vector
-
+        std::string the_item;
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()){
             std::cout<<"-"<<event_chain[current_state]->getChain()[selected_dialog-1]->getAnswer()<<std::endl;
             if (event_chain[current_state]->getChain()[selected_dialog-1]->isEvent_item()){
                 //item reception happens here
-                std::cout<<"Received: "<<event_chain[current_state]->getChain()[selected_dialog-1]->getItem()<<std::endl;
-                hero_state->setItem(event_chain[current_state]->getChain()[selected_dialog-1]->getItem());
+                the_item = event_chain[current_state]->getChain()[selected_dialog-1]->getItem();
+                std::cout<<"\nReceived: "<<the_item<<std::endl;
+                // add item to inventory
+                hero_state->pushItem(the_item);
+            }
+            if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
+                std::cout<<"EFFECT IS ENABLED"<<std::endl;
+                hero_state->setFear_level(event_chain[current_state]-> \
+                getChain()[selected_dialog-1]->getEffect());
+                // remove the effect
+                event_chain[current_state]->getChain()[selected_dialog-1]->setEffect(0);
+            }
+            if (event_chain[current_state]->getChain()[selected_dialog-1]->isTeleport()){
+                hero_state->setTeleport(true); //hero should be teleported somewhere
+                event_chain[current_state]->getChain()[selected_dialog-1]->disableTeleport();
+                //teleportation event is triggered only once
             }
         }
         else if (selection == 'q'){

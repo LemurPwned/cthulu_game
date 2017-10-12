@@ -12,6 +12,11 @@ Event::Event(int eventId, std::string event_type, std::string question, std::str
     event_item = true;
 }
 
+Event::Event(int eventId, std::string event_type, std::string question, std::string answer, int effect):
+        eventId(eventId), event_type(event_type), question(question), answer(answer), effect(effect) {
+    event_effect = true;
+}
+
 bool Event::isEvent_item() const {
     return event_item;
 }
@@ -27,3 +32,29 @@ const std::string &Event::getItem() const {
 void Event::setItem(const std::string &item) {
     Event::item = item;
 }
+
+bool Event::isEffect() const {
+    return event_effect;
+}
+
+void Event::setEvent_effect(bool event_effect) {
+    Event::event_effect = event_effect;
+}
+
+int Event::getEffect() const {
+    return effect;
+}
+
+void Event::setEffect(int effect) {
+    Event::effect = effect;
+}
+
+void Event::setTeleport(bool teleportation){
+    teleport = teleportation;
+}
+
+void Event::disableTeleport(){
+    teleport = false;
+}
+
+
