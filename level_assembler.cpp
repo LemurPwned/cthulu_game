@@ -5,14 +5,13 @@
 #include <iostream>
 #include "level_assembler.h"
 #include "FileReader.h"
+#include "Statistics.h"
 
-/*
- * TODO:
- * add hero-death loop exit
- * add Cthulhu amulet triggering
- */
+//initialize Hero
+int LevelAssembler::assemblers_count = 0;
 
 LevelAssembler::LevelAssembler() {
+    LevelAssembler::assemblers_count++;
     createLevelChain();
 }
 
@@ -24,14 +23,19 @@ void LevelAssembler::createLevelChain() {
     int num_locs = 3; // remember to update here
 
     //initialize hero state
-    Hero *hero = new Hero ("A man");
-    hero->setStrength(70);
+    Hero *hero = Hero::getHeroObject("A man"); // get static initializer
+    if (hero == nullptr) return; //quit if applicable
+
+    hero->setStrength(70); // set some arbitrary strength
+
+    Statistics *generals = Statistics::initializeStatistics(); //initialize local statistics
+
     for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
         level_chain.push_back(location_one); //fill location chain
     }
     while(true) {
-        if (!hero->isAlive()) return; // quit outer loop
+        if (!hero->isAlive()) break; // quit outer loop
         Location *picked = pickPlace();
         if (picked == nullptr){ //provides quitting capability
             break;
@@ -39,6 +43,12 @@ void LevelAssembler::createLevelChain() {
         picked->introduction();
         picked->listCharacters(hero);
     }
+
+    std::cout<<(*generals)<<std::endl;
+
+    //free the resources
+    delete hero;
+    delete &reader;
 }
 
 Location* LevelAssembler::pickPlace(){
@@ -66,5 +76,14 @@ Location* LevelAssembler::pickPlace(){
         }
     }
     return level_chain[selected_num-1];
+}
+
+void LevelAssembler::runLevelAssemblerInstance() {
+    if (assemblers_count >= 1){
+        std::cout<<"There is already an object of instance Level Assembler"<<std::endl;
+    }
+    else{
+        LevelAssembler();
+    }
 }
 

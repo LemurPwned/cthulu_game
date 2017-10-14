@@ -4,14 +4,16 @@
 
 #include "FileReader.h"
 #include "opponent.h"
+#include "Statistics.h"
 #include <fstream>
 
 Location* FileReader::jsonLoadLocation(const std::string &filename){
+    Statistics::addLocations_visited();
     std::ifstream stream(getPath() + filename);
     nlohmann::json j;
     stream >> j; //parse stream to json struct
     std::string description_to_write; // string containing whole description
-    for (auto desc_part : j["description"]){
+    for (auto &desc_part : j["description"]){
         description_to_write.append(desc_part);
         description_to_write.append("\n");
     }
@@ -21,7 +23,7 @@ Location* FileReader::jsonLoadLocation(const std::string &filename){
         location->setTeleportDestination(destination);
     }
     std::string the_path;
-    for (auto character: j["characters"]) {
+    for (auto &character: j["characters"]) {
         if (character["path"].is_string()) { // make sure path is a string
             the_path = character["path"];
             Character *character_one = jsonLoadCharacter(getPath() + the_path);
@@ -32,6 +34,7 @@ Location* FileReader::jsonLoadLocation(const std::string &filename){
 }
 
 Character *FileReader::jsonLoadCharacter(const std::string &filename) {
+    Statistics::addCharacters();
     std::ifstream stream(filename);
     nlohmann::json j;
     stream >> j; //parse stream to json struct
@@ -43,12 +46,10 @@ Character *FileReader::jsonLoadCharacter(const std::string &filename) {
         character = new Opponent(j["name"], j["description"], j["strength"]);
         //ugh such polymorphism
     }
-    nlohmann::json options = j;
-
     std::vector<EventChain*> chain = jsonFormEvent(j["dialog"]);
     character->setChain(chain);
     if (!j["react"].is_null()){ // if there is some reaction to an item, then set it here
-        for (auto reaction : j["react"]){
+        for (auto &reaction : j["react"]){
             // add to character reactions_list
             character->setMax_state(character->getMax_state()+1);
             character->pushReaction(reaction);
@@ -76,7 +77,7 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
                 should_teleport = option["teleport"];
             }
             if (option["answer"].is_array()) {
-                for (const auto &line : option["answer"]) {
+                for (auto &line : option["answer"]) {
                     answer.append(line);
                 }
             }
@@ -84,7 +85,7 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
                 answer = option["answer"];
             }
             if (option["question"].is_array()){
-                for (const auto &line : option["question"]){
+                for (auto &line : option["question"]){
                     question.append(line);
                 }
             }
@@ -100,15 +101,15 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
             else if (!option["item"].is_null()){
                 //if you get item during an event, check here
                 std::string possible_item = option["item"];
+                Statistics::addItems();
                 //this is done to avoid object type ambiguity in Event constructor
                 temp_event = new Event(i, "dialog", question, answer, possible_item);
                 temp_event->setTeleport(should_teleport);
                 if (!option["effect"].is_null()){
+                    //set an effect here
                     int effect = option["effect"];
-                    std::cout<<"EFFECT SET"<<std::endl;
                     temp_event->setEffect(effect);
                 }
-
             }
             else {
                 // push if there is an effect
@@ -117,12 +118,17 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
                 temp_event = new Event(i, "dialog", question, answer, effect);
                 temp_event->setTeleport(should_teleport);
             }
+            Statistics::addEvents();
             temp_chain->pushChain(temp_event);
         }
         events.push_back(temp_chain);
     }
     return events;
 }
+
+FileReader::~FileReader(){
+    std::cout<<"Closing reading capabilities..."<<std::endl;
+};
 
 
 

@@ -11,8 +11,12 @@
 class LevelAssembler{
 private:
     std::vector<Location*> level_chain;
-public:
+
+    static int assemblers_count;
+
     LevelAssembler();
+public:
+    static void runLevelAssemblerInstance();
 
     void createLevelChain();
 

@@ -68,5 +68,7 @@ public:
     void setTeleport(bool teleportation);
 
     void disableTeleport();
+
+    virtual ~Event();
 };
 #endif //CTHULU_GAME_EVENT_H

@@ -57,4 +57,6 @@ void Event::disableTeleport(){
     teleport = false;
 }
 
+Event::~Event() {
 
+}

@@ -35,5 +35,7 @@ public:
     }
 
     std::vector<EventChain*> jsonFormEvent(nlohmann::json dialog);
+
+    ~FileReader();
 };
 #endif //CTHULU_GAME_FILEREADER_H

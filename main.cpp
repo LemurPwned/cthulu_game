@@ -2,6 +2,6 @@
 
 int main() {
     // default constructor to call level assembling
-    LevelAssembler levelAssembler;
+    LevelAssembler::runLevelAssemblerInstance();
     return 0;
 }
