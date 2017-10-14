@@ -3,6 +3,7 @@
 //
 
 #include "opponent.h"
+#include "Statistics.h"
 #include <random>
 
 void Opponent::defend(Hero *hero_state) {
@@ -30,6 +31,12 @@ void Opponent::retaliate(Hero *hero_state) {
     int damage;
     if (hero_state->getStrength() < getStrength()){
         damage = hero_state->getStrength()*dist(gen)/10;
+        setHp(getHp()-damage);
+        if (!isAlive()){
+            Statistics::addEnemies_defeated();
+            std::cout<<"You have defeated "<<getName()<<std::endl;
+            return;
+        }
         std::cout<<"You're weaker than "<<getName()<<" so you'll receive penalty"<<std::endl;
         std::cout<<"Dealt "<<damage<<" damage!\n"<<std::endl;
         damage = getStrength()*(1 + hero_state->getFear_level()*dist(gen)/10);
@@ -40,6 +47,7 @@ void Opponent::retaliate(Hero *hero_state) {
         damage = hero_state->getStrength()*dist(gen)/10;
         setHp(getHp()-damage);
         if (!isAlive()){
+            Statistics::addEnemies_defeated();
             std::cout<<"You have defeated "<<getName()<<std::endl;
             return;
         }
@@ -86,9 +94,9 @@ void Opponent::introduction(Hero *hero_state) {
         int selected_dialog = selection - '0'; //convert to int, access to vector
 
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()) {
-            std::cout << "-" << event_chain[current_state]->getChain()[selected_dialog - 1]->getAnswer() << std::endl;
+            std::cout << "-" << event_chain[current_state]->\
+                    getChain()[selected_dialog - 1]->getAnswer()<< std::endl;
             if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
-                std::cout<<"EFFECT IS ENABLED"<<std::endl;
                 hero_state->setFear_level(event_chain[current_state]-> \
                 getChain()[selected_dialog-1]->getEffect());
                 // remove the effect

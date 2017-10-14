@@ -11,7 +11,7 @@
 #include "EventChain.h"
 #include "hero.h"
 
-class Character{
+class Character {
 private:
     std::string name;
     std::string description;
@@ -21,16 +21,19 @@ private:
 protected:
     std::vector<std::string> reaction_set;
 
-    std::vector<EventChain*> event_chain;
+    std::vector<EventChain *> event_chain;
     int current_state = 0;
-    int max_state = current_state+1;
+    int max_state = current_state + 1;
 
 public:
     Character();
 
     explicit Character(const std::string &name) : name(name) {};
 
-    Character(const std::string &name, const std::string &desc): name(name), description(desc) {};
+    Character(const std::string &name, const std::string &desc) : name(name), description(desc) {
+    };
+
+    virtual ~Character();
 
     void setChain(std::vector <EventChain*> &chain){
         event_chain = chain;

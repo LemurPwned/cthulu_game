@@ -16,7 +16,7 @@ public:
     }
 
     Opponent(const std::string &name, const std::string &desc, int strength) :
-                                                                            Character(name, desc), strength(strength) {}
+            Character(name, desc), strength(strength) {}
 
     void introduction(Hero *hero_state) override;
 

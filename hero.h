@@ -21,8 +21,12 @@ private:
 
     bool teleport = false;
 
+    static int hero_count; // should be exactly 1;
+
+    explicit Hero(std::string &name); // private constructor
+
 public:
-    explicit Hero(const std::string &name);
+    static Hero* getHeroObject(std::string name);
 
     int getHp() const {
         return hp;
@@ -80,5 +84,7 @@ public:
     void setTeleport(bool teleport) {
         Hero::teleport = teleport;
     }
+
+    virtual ~Hero();
 };
 #endif //CTHULU_GAME_HERO_H

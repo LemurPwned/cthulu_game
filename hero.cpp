@@ -3,8 +3,12 @@
 //
 
 #include "hero.h"
+//initialize static variables
+int Hero::hero_count = 0;
 
-Hero::Hero(const std::string &name) : name(name) {}
+Hero::Hero(std::string &name) : name(name) {
+    Hero::hero_count++;
+}
 
 void Hero::setFear_level(int fear) {
     //warning: this function does not *set* exactly but accumulates the fear passed
@@ -35,7 +39,21 @@ void Hero::setFear_level(int fear) {
         }
     }
     else if (fear < -1){
-        std::cout<<strength<<std::endl;
         strength -= fear; // increase statistics
+    }
+}
+
+Hero::~Hero() {
+    std::cout<<"Ending player's journey ... "<<std::endl;
+}
+
+Hero* Hero::getHeroObject(std::string name) {
+    if (Hero::hero_count >= 1){
+        std::cout<<hero_count<<std::endl;
+        std::cout<<"There has been already one hero object created"<<std::endl;
+        return nullptr; //alternatively throw an error
+    }
+    else{
+        return new Hero(name);
     }
 }

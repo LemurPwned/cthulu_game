@@ -6,6 +6,7 @@
 #include "json/json.hpp"
 #include <fstream>
 #include "character.h"
+#include "Statistics.h"
 
 Character::Character() {
     Character::name = "A stranger";
@@ -48,9 +49,9 @@ void Character::introduction(Hero *hero_state) {
                 std::cout<<"\nReceived: "<<the_item<<std::endl;
                 // add item to inventory
                 hero_state->pushItem(the_item);
+                Statistics::addItems_received();
             }
             if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
-                std::cout<<"EFFECT IS ENABLED"<<std::endl;
                 hero_state->setFear_level(event_chain[current_state]-> \
                 getChain()[selected_dialog-1]->getEffect());
                 // remove the effect
@@ -70,4 +71,8 @@ void Character::introduction(Hero *hero_state) {
             std::cout<<"Invalid input "<<selection<<std::endl;
         }
     }
+}
+
+Character::~Character() {
+    std::cout<<"Deleting a character: "<<getName()<<std::endl;
 }
