@@ -32,6 +32,7 @@ void Opponent::retaliate(Hero *hero_state) {
     if (hero_state->getStrength() < getStrength()){
         damage = hero_state->getStrength()*dist(gen)/10;
         setHp(getHp()-damage);
+        Statistics::addDamage_dealt(damage);
         if (!isAlive()){
             Statistics::addEnemies_defeated();
             std::cout<<"You have defeated "<<getName()<<std::endl;
@@ -41,11 +42,13 @@ void Opponent::retaliate(Hero *hero_state) {
         std::cout<<"Dealt "<<damage<<" damage!\n"<<std::endl;
         damage = getStrength()*(1 + hero_state->getFear_level()*dist(gen)/10);
         hero_state->setHp(hero_state->getHp() - damage);
+        Statistics::addDamaged_received(damage);
         std::cout<<getName()<<" retaliates! with "<<damage<<" damage points"<<std::endl;
     }
     else{
         damage = hero_state->getStrength()*dist(gen)/10;
         setHp(getHp()-damage);
+        Statistics::addDamage_dealt(damage);
         if (!isAlive()){
             Statistics::addEnemies_defeated();
             std::cout<<"You have defeated "<<getName()<<std::endl;
@@ -54,6 +57,7 @@ void Opponent::retaliate(Hero *hero_state) {
         std::cout<<"Dealt "<<damage<<" damage!\n"<<std::endl;
         damage = getStrength()*dist(gen)/10;
         hero_state->setHp(hero_state->getHp() - damage);
+        Statistics::addDamaged_received(damage);
         std::cout<<getName()<<" retaliates! with "<<damage<<" damage points"<<std::endl;
     }
 }

@@ -19,11 +19,12 @@ void LevelAssembler::createLevelChain() {
     std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //change here to get proper paths
     std::cout<<"GAME FILES PATH: " <<content_pack<<std::endl;
     FileReader reader(content_pack);
+    std::string hero_name = reader.processHeroName();
     std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
     int num_locs = 3; // remember to update here
 
     //initialize hero state
-    Hero *hero = Hero::getHeroObject("A man"); // get static initializer
+    Hero *hero = Hero::getHeroObject(hero_name); // get static initializer
     if (hero == nullptr) return; //quit if applicable
 
     hero->setStrength(70); // set some arbitrary strength
@@ -44,7 +45,7 @@ void LevelAssembler::createLevelChain() {
         picked->listCharacters(hero);
     }
 
-    std::cout<<(*generals)<<std::endl;
+    std::cout<<(*generals)<<std::endl; //print out statistics before rolling credits
 
     //free the resources
     delete hero;

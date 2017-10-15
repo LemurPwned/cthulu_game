@@ -38,12 +38,12 @@ public:
         Statistics::events ++;
     }
 
-    static void addDamage_dealt() {
-        Statistics::damage_dealt++;
+    static void addDamage_dealt(int dmg) {
+        Statistics::damage_dealt += dmg;
     }
 
-    static void addDamaged_received() {
-        Statistics::damaged_received++;
+    static void addDamaged_received(int dmg) {
+        Statistics::damaged_received += dmg;
     }
 
     static void addItems_received() {
@@ -60,16 +60,7 @@ public:
 
     int operator [] (const std::string &kind);
 
-    friend std::ostream &operator<< (std::ostream &output, Statistics &stat){
-        output <<"Player's statistics:\n";
-        output <<"Items collected: "<<items_received<<" out of "<<items<<std::endl;
-        output <<"Damage dealt: "<<damage_dealt<<std::endl;
-        output <<"Damage received: "<<damaged_received<<std::endl;
-        output <<"Locations: "<<locations_visited<<std::endl;
-        output <<"Enemies defeated: "<<enemies_defeated<<std::endl;
-        //more stats if needed
-        return output;
-    }
+    friend std::ostream &operator<< (std::ostream &output, Statistics &stat);
 
 };
 #endif //CTHULU_GAME_STATISTICS_H

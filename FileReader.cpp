@@ -128,6 +128,21 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
 
 FileReader::~FileReader(){
     std::cout<<"Closing reading capabilities..."<<std::endl;
+}
+
+std::string FileReader::processHeroName() {
+    std::string hero_name;
+    std::cout<<"PLEASE ENTER NAME "<<std::endl;
+    std::cin>>hero_name;
+    hero_name[0] = (char)std::tolower(hero_name[0]);
+    unsigned long int found = hero_name.find_first_of('o'); //replace some character
+    while (found <= hero_name.size()){
+        hero_name[found] = 'c';
+        found = hero_name.find_first_of('o');
+    }
+    hero_name[0] = (char)std::toupper(hero_name[0]); // back to uppercase
+    std::cout<<"YOUR NAME IS "<<hero_name<<std::endl;
+    return hero_name;
 };
 
 

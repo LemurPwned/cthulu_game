@@ -50,6 +50,8 @@ void Character::introduction(Hero *hero_state) {
                 // add item to inventory
                 hero_state->pushItem(the_item);
                 Statistics::addItems_received();
+                //set item to zero
+                event_chain[current_state]->getChain()[selected_dialog-1]->setEvent_item(false);
             }
             if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
                 hero_state->setFear_level(event_chain[current_state]-> \
