@@ -46,6 +46,10 @@ Character *FileReader::jsonLoadCharacter(const std::string &filename) {
         character = new Opponent(j["name"], j["description"], j["strength"]);
         //ugh such polymorphism
     }
+    else{
+        character = nullptr;
+        std::cout<<"INVALID CHARACTER CREATION\n"<<std::endl;
+    }
     std::vector<EventChain*> chain = jsonFormEvent(j["dialog"]);
     character->setChain(chain);
     if (!j["react"].is_null()){ // if there is some reaction to an item, then set it here
@@ -135,7 +139,11 @@ std::string FileReader::processHeroName() {
     std::cout<<"PLEASE ENTER NAME "<<std::endl;
     std::cin>>hero_name;
     hero_name[0] = (char)std::tolower(hero_name[0]);
-    unsigned long int found = hero_name.find_first_of('o'); //replace some character
+    unsigned long int found = hero_name.find_first_of('o'); //replace some characters
+    std::string new_name;
+    for (unsigned int i = hero_name.size()-1; i >= 0; i--){
+        std::cout<<hero_name[i]<<std::endl;
+    }
     while (found <= hero_name.size()){
         hero_name[found] = 'c';
         found = hero_name.find_first_of('o');

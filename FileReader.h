@@ -20,17 +20,17 @@ private:
 public:
     FileReader() = default;
 
-    explicit FileReader(std::string folder_path): path(folder_path) {}
+    explicit FileReader(const std::string folder_path): path(folder_path) {}
 
     Location* jsonLoadLocation(const std::string &filename);
 
     Character* jsonLoadCharacter(const std::string &filename);
 
-    const std::string getPath() {
+    std::string getPath() {
         return path;
     }
 
-    void setPath(const std::string &filepath) {
+    void setPath(std::string &filepath) {
         path = filepath;
     }
 
