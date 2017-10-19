@@ -5,6 +5,7 @@
 #include "FileReader.h"
 #include "opponent.h"
 #include "Statistics.h"
+#include "Randomizer.h"
 #include <fstream>
 
 Location* FileReader::jsonLoadLocation(const std::string &filename){
@@ -139,18 +140,19 @@ std::string FileReader::processHeroName() {
     std::cout<<"PLEASE ENTER NAME "<<std::endl;
     std::cin>>hero_name;
     hero_name[0] = (char)std::tolower(hero_name[0]);
-    unsigned long int found = hero_name.find_first_of('o'); //replace some characters
     std::string new_name;
-    for (unsigned int i = hero_name.size()-1; i >= 0; i--){
-        std::cout<<hero_name[i]<<std::endl;
+    int changer = Randomizer::generateRandomToken(hero_name.size()-1);
+    for (int i = hero_name.size()-1; i >= 0; i--){
+        if (i%changer == 0){
+            new_name += Randomizer::drawRandomSign();
+        }
+        else{
+            new_name += hero_name[i];
+        }
     }
-    while (found <= hero_name.size()){
-        hero_name[found] = 'c';
-        found = hero_name.find_first_of('o');
-    }
-    hero_name[0] = (char)std::toupper(hero_name[0]); // back to uppercase
-    std::cout<<"YOUR NAME IS "<<hero_name<<std::endl;
-    return hero_name;
+    new_name[0] = (char)std::toupper(hero_name[0]); // back to uppercase
+    std::cout<<"YOUR NAME IS "<<new_name<<std::endl;
+    return new_name;
 };
 
 

@@ -3,3 +3,13 @@
 //
 
 #include "EventChain.h"
+
+std::vector<Event *> EventChain::getChain() {
+    return eventchain;
+}
+
+void EventChain::pushChain(Event *ev) {
+    eventchain.push_back(ev);
+}
+
+EventChain::EventChain(int eventChainId) : eventChainId(eventChainId) {}

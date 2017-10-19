@@ -16,14 +16,10 @@ private:
 public:
     EventChain() = default;
 
-    explicit EventChain(int eventChainId) : eventChainId(eventChainId) {}
+    explicit EventChain(int eventChainId);
 
-    void pushChain(Event *ev){
-        eventchain.push_back(ev);
-    }
+    void pushChain(Event *ev);
 
-    std::vector<Event*> getChain(){
-        return eventchain;
-    }
+    std::vector<Event*> getChain();
 };
 #endif //CTHULU_GAME_EVENTCHAIN_H
