@@ -100,5 +100,7 @@ public:
     virtual void setDescription(const std::string &description) {
         Character::description = description;
     }
+
+    void refactorString(std::string &text, int scaler);
 };
 #endif //CTHULU_GAME_CHARACTER_H

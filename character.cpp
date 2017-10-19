@@ -5,8 +5,10 @@
 #include <iostream>
 #include "json/json.hpp"
 #include <fstream>
+#include <random>
 #include "character.h"
 #include "Statistics.h"
+#include "Randomizer.h"
 
 Character::Character() {
     Character::name = "A stranger";
@@ -34,7 +36,9 @@ void Character::introduction(Hero *hero_state) {
         int available_answers = 1;
 
         for (auto i: event_chain[current_state]->getChain()) {
-            std::cout<<available_answers<<") "<<i->getQuestion()<<std::endl;
+            std::string possible_question = i->getQuestion();
+            refactorString(possible_question, hero_state->getFear_level());
+            std::cout<<available_answers<<") "<<possible_question<<std::endl;
             available_answers++;
         }
         char selection;
@@ -42,27 +46,28 @@ void Character::introduction(Hero *hero_state) {
         int selected_dialog = selection - '0'; //convert to int, access to vector
         std::string the_item;
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()){
-            std::cout<<"-"<<event_chain[current_state]->getChain()[selected_dialog-1]->getAnswer()<<std::endl;
+            std::cout<<"-"<<event_chain[current_state]->getChain()[selected_dialog-1]\
+                                                        ->getAnswer()<<std::endl;
             if (event_chain[current_state]->getChain()[selected_dialog-1]->isEvent_item()){
-                //item reception happens here
+                // item reception happens here
                 the_item = event_chain[current_state]->getChain()[selected_dialog-1]->getItem();
                 std::cout<<"\nReceived: "<<the_item<<std::endl;
                 // add item to inventory
                 hero_state->pushItem(the_item);
                 Statistics::addItems_received();
-                //set item to zero
+                // set item to zero
                 event_chain[current_state]->getChain()[selected_dialog-1]->setEvent_item(false);
             }
             if(event_chain[current_state]->getChain()[selected_dialog-1]->isEffect()){
-                hero_state->setFear_level(event_chain[current_state]-> \
-                getChain()[selected_dialog-1]->getEffect());
+                hero_state->setFear_level(event_chain[current_state]\
+                                             ->getChain()[selected_dialog-1]->getEffect());
                 // remove the effect
                 event_chain[current_state]->getChain()[selected_dialog-1]->setEffect(0);
             }
             if (event_chain[current_state]->getChain()[selected_dialog-1]->isTeleport()){
                 hero_state->setTeleport(true); //hero should be teleported somewhere
                 event_chain[current_state]->getChain()[selected_dialog-1]->disableTeleport();
-                //teleportation event is triggered only once
+                // teleportation event is triggered only once
             }
         }
         else if (selection == 'q'){
@@ -77,4 +82,16 @@ void Character::introduction(Hero *hero_state) {
 
 Character::~Character() {
     std::cout<<"Deleting a character: "<<getName()<<std::endl;
+}
+
+void Character::refactorString(std::string &text, int scaler) {
+    //get how many characters to change in a string
+    unsigned long int txt_size = text.size()-1;
+    unsigned long int letters_to_randomize = scaler*txt_size/100;
+    int position;
+    for (int i = 0; i < letters_to_randomize; ++i) {
+        //draw a position
+        position = Randomizer::generateRandomToken(txt_size);
+        text[position] = Randomizer::drawRandomSign();
+    }
 }
