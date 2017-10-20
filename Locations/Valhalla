@@ -1,0 +1,7 @@
+{
+  "name": "Valhalla",
+  "description": ["It's here where souls of brave warriors enter",
+    "\n A glorious Valhalla! Splendor to all who were accepted into this noble house",
+    "\nwe salute your life, now have your rest"],
+  "characters": [{"path":"/Characters/Walkyrie"}]
+}

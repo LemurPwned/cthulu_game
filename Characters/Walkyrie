@@ -1,0 +1,19 @@
+{
+  "name": "Walkyrie",
+  "description": "It's the one that brought you here. Glorious harp, wide wings and tall posture",
+  "dialog": [
+    {
+      "id": 1,
+      "option": [
+        {
+          "question": "Where am I?",
+          "answer": "It is your prize, warrior, you've entered Valhalla!"
+        },
+        {
+          "question": "Why?",
+          "answer": ["You've been granted what others have dreamt of.", "Why ask so many questions"]
+        }
+      ]
+    }
+  ]
+}
