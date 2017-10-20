@@ -53,7 +53,6 @@ void LevelAssembler::createLevelChain() {
     //free the resources
     Hero *soul = Hero::createSoul(hero);
 
-    delete hero;
     bonusLevel(reader, soul);
     //finally free everything
     delete &reader;
@@ -72,6 +71,7 @@ void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
     }
     else{
         std::cout<<"You have not deserved for a proper rest, die now"<<std::endl;
+        delete state;
     }
 
 }

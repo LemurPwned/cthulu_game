@@ -58,7 +58,7 @@ public:
         enemies_defeated++;
     }
 
-    int operator [] (const std::string &kind);
+    int operator [](const std::string &kind);
 
     friend std::ostream &operator<< (std::ostream &output, Statistics &stat);
 

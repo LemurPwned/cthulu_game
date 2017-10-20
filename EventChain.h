@@ -21,5 +21,7 @@ public:
     void pushChain(Event *ev);
 
     std::vector<Event*> getChain();
+
+    virtual ~EventChain();
 };
 #endif //CTHULU_GAME_EVENTCHAIN_H

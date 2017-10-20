@@ -132,6 +132,7 @@ std::vector<EventChain*> FileReader::jsonFormEvent(nlohmann::json dialog_options
 }
 
 FileReader::~FileReader(){
+    delete &path;
     std::cout<<"Closing reading capabilities..."<<std::endl;
 }
 
@@ -139,6 +140,11 @@ std::string FileReader::processHeroName() {
     std::string hero_name;
     std::cout<<"PLEASE ENTER NAME "<<std::endl;
     std::cin>>hero_name;
+
+    while (hero_name.size() < 5){
+        std::cout<<"Name is too short, please reenter"<<std::endl;
+        std::cin>>hero_name;
+    }
     hero_name[0] = (char)std::tolower(hero_name[0]);
     std::string new_name;
     int changer = Randomizer::generateRandomToken(hero_name.size()-1);

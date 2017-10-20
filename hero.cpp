@@ -46,10 +46,14 @@ void Hero::setFear_level(int fear) {
 
 Hero::~Hero() {
     std::cout<<"Ending player's journey ... "<<std::endl;
+    delete &hp;
+    delete &fear_level;
+    delete &strength;
+    delete &name;
 }
 
 Hero* Hero::getHeroObject(std::string name) {
-    if (Hero::hero_count >= 2){
+    if (Hero::hero_count >= 1){
         std::cout<<hero_count<<std::endl;
         std::cout<<"There has been already one hero object created"<<std::endl;
         return nullptr; //alternatively throw an error
@@ -61,8 +65,8 @@ Hero* Hero::getHeroObject(std::string name) {
 
 Hero::Hero(Hero *object) {
     name = object->name;
-    hp = object->hp - object->hp/3;
-    fear_level = object->fear_level/4;
+    hp = 100;
+    fear_level = object->getFear_level();
     strength = 100;
 }
 

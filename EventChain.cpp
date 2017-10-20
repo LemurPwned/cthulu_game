@@ -13,3 +13,7 @@ void EventChain::pushChain(Event *ev) {
 }
 
 EventChain::EventChain(int eventChainId) : eventChainId(eventChainId) {}
+
+EventChain::~EventChain() {
+    delete &eventchain;
+}
