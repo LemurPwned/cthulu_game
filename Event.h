@@ -32,6 +32,10 @@ public:
 
     Event(int eventId, std::string event_type, std::string question, std::string answer);
 
+    Event (int eventId, std::string event_type): eventId(eventId), event_type(event_type) {};
+
+    Event (const Event &ev);
+
     bool isTeleport() const{
         return teleport;
     }
@@ -63,7 +67,6 @@ public:
     const std::string &getAnswer() const {
         return answer;
     }
-
 
     void setTeleport(bool teleportation);
 

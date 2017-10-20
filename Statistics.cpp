@@ -15,7 +15,6 @@ int Statistics::enemies_defeated = 0;
 int Statistics::events = 0;
 
 Statistics *Statistics::initializeStatistics() {
-    std::cout<<"Initializing an object no:"<<statistics_count<<std::endl;
     statistics_count++;
     return new Statistics();
 }

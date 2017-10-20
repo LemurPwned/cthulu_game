@@ -7,7 +7,8 @@
 Event::Event(int eventId, std::string event_type, std::string question, std::string answer):
                 eventId(eventId), event_type(event_type), question(question), answer(answer){}
 
-Event::Event(int eventId, std::string event_type, std::string question, std::string answer, std::string item):
+Event::Event(int eventId, std::string event_type, std::string question, std::string answer, \
+            std::string item):
         eventId(eventId), event_type(event_type), question(question), answer(answer), item(item){
     event_item = true;
 }
@@ -59,4 +60,10 @@ void Event::disableTeleport(){
 
 Event::~Event() {
 
+}
+
+Event::Event(const Event &ev) {
+    std::cout<<"COPYING AN OBJECT "<<std::endl;
+    eventId = ev.eventId;
+    event_type = ev.event_type;
 }
