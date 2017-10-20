@@ -87,7 +87,10 @@ void Opponent::introduction(Hero *hero_state) {
         int available_answers = 1;
 
         for (auto i: event_chain[current_state]->getChain()) {
-            std::cout<<available_answers<<") "<<i->getQuestion()<<std::endl;
+            std::string possible_question = i->getQuestion();
+            //change the questions depending on the fear level
+            refactorString(possible_question, hero_state->getFear_level());
+            std::cout<<available_answers<<") "<<possible_question<<std::endl;
             available_answers++;
         }
         std::cout<<"a) Attack"<<std::endl; // extra options for the opponent type
