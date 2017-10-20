@@ -5,11 +5,10 @@
 #ifndef CTHULU_GAME_HERO_H
 #define CTHULU_GAME_HERO_H
 
-#include "hero.h"
 #include <iostream>
 #include <vector>
 
-class Hero{
+class Hero {
 private:
     std::string name;
 
@@ -25,14 +24,38 @@ private:
 
     explicit Hero(std::string &name); // private constructor
 
+    explicit Hero(Hero *object);
+
 public:
-    static Hero* getHeroObject(std::string name);
+    static Hero *getHeroObject(std::string name);
+
+    static Hero *createSoul(Hero *object);
+
+    const std::string &getName() const {
+        return name;
+    }
+
+    void setName(const std::string &name) {
+        Hero::name = name;
+    }
+
+    const std::vector<std::string> &getInventory() const {
+        return inventory;
+    }
+
+    void setInventory(const std::vector<std::string> &inventory) {
+        Hero::inventory = inventory;
+    }
 
     int getHp() const {
         return hp;
     }
 
-    bool isAlive() const {
+    void setHp(int hp) {
+        Hero::hp = hp;
+    }
+
+    bool isAlive() {
         if (hp > 0){
             return true;
         }
@@ -41,8 +64,12 @@ public:
         }
     }
 
-    void setHp(int hp) {
-        Hero::hp = hp;
+    static int getHero_count() {
+        return hero_count;
+    }
+
+    static void setHero_count(int hero_count) {
+        Hero::hero_count = hero_count;
     }
 
     int getStrength() const {

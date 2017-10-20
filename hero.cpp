@@ -3,6 +3,7 @@
 //
 
 #include "hero.h"
+
 //initialize static variables
 int Hero::hero_count = 0;
 
@@ -48,7 +49,7 @@ Hero::~Hero() {
 }
 
 Hero* Hero::getHeroObject(std::string name) {
-    if (Hero::hero_count >= 1){
+    if (Hero::hero_count >= 2){
         std::cout<<hero_count<<std::endl;
         std::cout<<"There has been already one hero object created"<<std::endl;
         return nullptr; //alternatively throw an error
@@ -56,4 +57,15 @@ Hero* Hero::getHeroObject(std::string name) {
     else{
         return new Hero(name);
     }
+}
+
+Hero::Hero(Hero *object) {
+    name = object->name;
+    hp = object->hp - object->hp/3;
+    fear_level = object->fear_level/4;
+    strength = 100;
+}
+
+Hero *Hero::createSoul(Hero *hero) {
+    return new Hero(hero);
 }

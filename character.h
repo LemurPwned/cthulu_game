@@ -8,8 +8,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "EventChain.h"
 #include "hero.h"
+#include "EventChain.h"
 
 class Character {
 private:

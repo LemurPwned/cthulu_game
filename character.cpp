@@ -6,9 +6,9 @@
 #include "json/json.hpp"
 #include <fstream>
 #include <random>
-#include "character.h"
 #include "Statistics.h"
 #include "Randomizer.h"
+#include "character.h"
 
 Character::Character() {
     Character::name = "A stranger";
@@ -37,6 +37,7 @@ void Character::introduction(Hero *hero_state) {
 
         for (auto i: event_chain[current_state]->getChain()) {
             std::string possible_question = i->getQuestion();
+            //change the questions depending on the fear level
             refactorString(possible_question, hero_state->getFear_level());
             std::cout<<available_answers<<") "<<possible_question<<std::endl;
             available_answers++;
@@ -92,6 +93,7 @@ void Character::refactorString(std::string &text, int scaler) {
     for (int i = 0; i < letters_to_randomize; ++i) {
         //draw a position
         position = Randomizer::generateRandomToken(txt_size);
+        //draw a sign at this position
         text[position] = Randomizer::drawRandomSign();
     }
 }
