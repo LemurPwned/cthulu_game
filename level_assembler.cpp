@@ -15,26 +15,46 @@ LevelAssembler::LevelAssembler() {
     createLevelChain();
 }
 
+void LevelAssembler::gameLoop(Hero *state){
+    while(true) {
+        if (!state->isAlive()) break; // quit outer loop
+        Location *picked = pickPlace();
+        if (picked == nullptr){ //provides quitting capability
+            break;
+        }
+        picked->introduction();
+        picked->listCharacters(state);
+    }
+}
+
+void LevelAssembler::loadGameFiles(FileReader &reader, std::string *list){
+    for (int i = 0; i < num_locs ; ++i) {
+        Location *location_one = reader.jsonLoadLocation(list[i]);
+        level_chain.push_back(location_one); //fill location chain
+    }
+}
+
 void LevelAssembler::createLevelChain() {
     std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //change here to get proper paths
     std::cout<<"GAME FILES PATH: " <<content_pack<<std::endl;
     FileReader reader(content_pack);
     std::string hero_name = reader.processHeroName();
     std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
+
     int num_locs = 3; // remember to update here
 
     //initialize hero state
     Hero *hero = Hero::getHeroObject(hero_name); // get static initializer
     if (hero == nullptr) return; //quit if applicable
-
     hero->setStrength(70); // set some arbitrary strength
 
     Statistics *generals = Statistics::initializeStatistics(); //initialize local statistics
 
-    for (int i = 0; i < num_locs ; ++i) {
+    loadGameFiles(reader, locations_list);
+/*    for (int i = 0; i < num_locs ; ++i) {
         Location *location_one = reader.jsonLoadLocation(locations_list[i]);
         level_chain.push_back(location_one); //fill location chain
-    }
+    }*/
     while(true) {
         if (!hero->isAlive()) break; // quit outer loop
         Location *picked = pickPlace();
@@ -46,12 +66,30 @@ void LevelAssembler::createLevelChain() {
     }
 
     std::cout<<(*generals)<<std::endl; //print out statistics before rolling credits
-
     //free the resources
+    Hero *soul = Hero::createSoul(hero);
+
     delete hero;
+    bonusLevel(reader, soul);
+    //finally free everything
     delete &reader;
+    delete soul;
 }
 
+void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
+    if (state->getFear_level() < 35){
+        level_chain.clear();
+        std::string soul_locations_list[] = {R"(/Locations/Valhalla)"};
+
+        std::cout<<"You've died but your soul does not cease to exist..."<<std::endl;
+        LevelAssembler::num_locs = 1;
+        loadGameFiles(reader, soul_locations_list);
+        gameLoop(state);
+    } else{
+        std::cout<<"You have not deserved for a proper rest, die now"<<std::endl;
+    }
+
+}
 Location* LevelAssembler::pickPlace(){
     std::cout<<"Where you choose to go?"<<std::endl;
     char selection;
@@ -68,7 +106,6 @@ Location* LevelAssembler::pickPlace(){
         if (selected_num-1 < level_chain.size()) {
             break;
         }
-
         else if (selection == 'q'){
             return nullptr;
         }

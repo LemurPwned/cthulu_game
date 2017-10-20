@@ -73,7 +73,7 @@ void Location::listCharacters(Hero *hero_state){
             Location::characters[currently_selected-1]->introduction(hero_state);
             if (teleport_dest != "None" && hero_state->isTeleport()){
                 teleport(hero_state);
-                Location::characters[currently_selected-1];
+                //Location::characters[currently_selected-1]; perhaps remove teleport
                 hero_state->setTeleport(false); //disable teleport
             }
         }
