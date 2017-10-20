@@ -1,13 +1,11 @@
 //
 // Created by lemurpwned on 07/10/17.
 //
-
 #include <iostream>
 #include "level_assembler.h"
 #include "FileReader.h"
 #include "Statistics.h"
 
-//initialize Hero
 int LevelAssembler::assemblers_count = 0;
 
 LevelAssembler::LevelAssembler() {
@@ -41,8 +39,6 @@ void LevelAssembler::createLevelChain() {
     std::string hero_name = reader.processHeroName();
     std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
 
-    int num_locs = 3; // remember to update here
-
     //initialize hero state
     Hero *hero = Hero::getHeroObject(hero_name); // get static initializer
     if (hero == nullptr) return; //quit if applicable
@@ -50,20 +46,8 @@ void LevelAssembler::createLevelChain() {
 
     Statistics *generals = Statistics::initializeStatistics(); //initialize local statistics
 
-    loadGameFiles(reader, locations_list);
-/*    for (int i = 0; i < num_locs ; ++i) {
-        Location *location_one = reader.jsonLoadLocation(locations_list[i]);
-        level_chain.push_back(location_one); //fill location chain
-    }*/
-    while(true) {
-        if (!hero->isAlive()) break; // quit outer loop
-        Location *picked = pickPlace();
-        if (picked == nullptr){ //provides quitting capability
-            break;
-        }
-        picked->introduction();
-        picked->listCharacters(hero);
-    }
+    loadGameFiles(reader, locations_list); // red game files
+    gameLoop(hero); // run the loop
 
     std::cout<<(*generals)<<std::endl; //print out statistics before rolling credits
     //free the resources
@@ -85,7 +69,8 @@ void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
         LevelAssembler::num_locs = 1;
         loadGameFiles(reader, soul_locations_list);
         gameLoop(state);
-    } else{
+    }
+    else{
         std::cout<<"You have not deserved for a proper rest, die now"<<std::endl;
     }
 
