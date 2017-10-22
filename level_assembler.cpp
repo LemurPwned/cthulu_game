@@ -36,7 +36,8 @@ void LevelAssembler::createLevelChain() {
     std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //change here to get proper paths
     std::cout<<"GAME FILES PATH: " <<content_pack<<std::endl;
     FileReader reader(content_pack);
-    std::string hero_name = reader.processHeroName();
+    //std::string hero_name = reader.processHeroName();
+    std::string hero_name = "A stranger";
     std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
 
     //initialize hero state
@@ -55,8 +56,9 @@ void LevelAssembler::createLevelChain() {
 
     bonusLevel(reader, soul);
     //finally free everything
-    delete &reader;
     delete soul;
+    delete hero;
+    delete &reader;
 }
 
 void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
@@ -68,10 +70,10 @@ void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
         LevelAssembler::num_locs = 1;
         loadGameFiles(reader, soul_locations_list);
         gameLoop(state);
+        std::cout<<"You've ended your journey for good..."<<std::endl;
     }
     else{
         std::cout<<"You have not deserved for a proper rest, die now"<<std::endl;
-        delete state;
     }
 
 }

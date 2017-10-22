@@ -62,10 +62,12 @@ void Location::listCharacters(Hero *hero_state){
             return;
         }
         int option = 1;
+        //list characters
         for (auto *character : Location::characters) {
             std::cout<<option<<") "<<character->getName()<<std::endl;
             option ++;
         }
+
         std::cin>>selection;
         int currently_selected = selection - '0'; //parse to int
         if (currently_selected -1 < characters.size()){
@@ -73,7 +75,7 @@ void Location::listCharacters(Hero *hero_state){
             Location::characters[currently_selected-1]->introduction(hero_state);
             if (teleport_dest != "None" && hero_state->isTeleport()){
                 teleport(hero_state);
-                //Location::characters[currently_selected-1]; perhaps remove teleport
+                //Location::characters[currently_selected -1]; //perhaps remove teleport
                 hero_state->setTeleport(false); //disable teleport
             }
         }
@@ -85,13 +87,12 @@ void Location::listCharacters(Hero *hero_state){
             std::cout<<"Invalid input "<<selection<<std::endl;
         }
     }
-
 }
 
 void Location::teleport(Hero *hero_state) {
-    std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)"; //weak spot
-    FileReader fr(content_pack);
-    Location *location = fr.jsonLoadLocation(teleport_dest);
+    std::string content_pack = R"(/home/lemurpwned/repos/cthulu_game)";
+    FileReader *fr = new FileReader(content_pack);
+    Location *location = fr->jsonLoadLocation(teleport_dest);
     location->introduction();
     location->listCharacters(hero_state);
 }
