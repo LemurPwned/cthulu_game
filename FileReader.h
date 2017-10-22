@@ -5,9 +5,9 @@
 #ifndef CTHULU_GAME_FILEREADER_H
 #define CTHULU_GAME_FILEREADER_H
 
+#include "location.h"
 #include <string>
 #include <utility>
-#include "location.h"
 #include "character.h"
 #include "Event.h"
 #include "json/json.hpp"

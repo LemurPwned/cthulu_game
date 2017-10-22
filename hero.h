@@ -7,8 +7,9 @@
 
 #include <iostream>
 #include <vector>
+#include "npc.h"
 
-class Hero {
+class Hero: public NPC {
 private:
     std::string name;
 
@@ -16,7 +17,7 @@ private:
 
     int strength;
     int fear_level = 0;
-    int hp = 100;
+    //int hp = 100;
 
     bool teleport = false;
 
@@ -31,37 +32,12 @@ public:
 
     static Hero *createSoul(Hero *object);
 
-    const std::string &getName() const {
-        return name;
-    }
-
-    void setName(const std::string &name) {
-        Hero::name = name;
-    }
-
     const std::vector<std::string> &getInventory() const {
         return inventory;
     }
 
     void setInventory(const std::vector<std::string> &inventory) {
         Hero::inventory = inventory;
-    }
-
-    int getHp() const {
-        return hp;
-    }
-
-    void setHp(int hp) {
-        Hero::hp = hp;
-    }
-
-    bool isAlive() {
-        if (hp > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
     static int getHero_count() {
@@ -112,6 +88,6 @@ public:
         Hero::teleport = teleport;
     }
 
-    virtual ~Hero();
+    ~Hero();
 };
 #endif //CTHULU_GAME_HERO_H

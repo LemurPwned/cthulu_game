@@ -38,7 +38,7 @@ void Character::introduction(Hero *hero_state) {
         for (auto i: event_chain[current_state]->getChain()) {
             std::string possible_question = i->getQuestion();
             //change the questions depending on the fear level
-            refactorString(possible_question, hero_state->getFear_level());
+            refactorString(possible_question, hero_state->getFear_level()/20);
             std::cout<<available_answers<<") "<<possible_question<<std::endl;
             available_answers++;
         }
