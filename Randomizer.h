@@ -20,5 +20,7 @@ public:
     static int generateRandomToken(int indicator);
 
     static char drawRandomSign();
+
+    static int generateRandomNumberFromInterval(int start, int stop);
 };
 #endif //CTHULU_GAME_RANDOMIZER_H
