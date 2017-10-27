@@ -16,32 +16,15 @@ Character::Character() {
 }
 
 void Character::introduction(Hero *hero_state) {
-    for (int i = 0; i < reaction_set.size(); i++){
-        if (hero_state->isInInventory(reaction_set[i])){
-            setCurrentState(i+1);
-        }
-    }
+    Character::checkCurrentState(hero_state);
     //standard character introduction
-    std::cout<<"This person's name is: "<<getName()<<std::endl;
-    if (!isAlive()) {
-        std::cout<<"He is totally dead"<<std::endl;
-        return;
-    }
-    std::cout<<getDescription()<<std::endl;
+    Character::introduction();
 
     while(true){
-        std::cout<<"What do you wish to talk about with "<<getName()<<"?"<<std::endl;
         //list dialogs here
         //check if dialogs exist?
-        int available_answers = 1;
+        Character::listDialogOptions(hero_state);
 
-        for (auto i: event_chain[current_state]->getChain()) {
-            std::string possible_question = i->getQuestion();
-            //change the questions depending on the fear level
-            refactorString(possible_question, hero_state->getFear_level()/20);
-            std::cout<<available_answers<<") "<<possible_question<<std::endl;
-            available_answers++;
-        }
         char selection;
         std::cin>>selection;
         int selected_dialog = selection - '0'; //convert to int, access to vector
@@ -87,6 +70,10 @@ Character::~Character() {
 
 void Character::refactorString(std::string &text, int scaler) {
     //get how many characters to change in a string
+    if (scaler < 0){
+        //safety return if hero starts with a negative fear level (possible and planned)
+        return;
+    }
     unsigned long int txt_size = text.size()-1;
     unsigned long int letters_to_randomize = scaler*txt_size/100;
     int position;
@@ -95,5 +82,35 @@ void Character::refactorString(std::string &text, int scaler) {
         position = Randomizer::generateRandomToken(txt_size);
         //draw a sign at this position
         text[position] = Randomizer::drawRandomSign();
+    }
+}
+
+void Character::introduction() {
+    std::cout<<getName()<<std::endl;
+    if (!isAlive()) {
+        std::cout<<"He is totally dead"<<std::endl;
+        return;
+    }
+    std::cout<<getDescription()<<std::endl;
+}
+
+void Character::checkCurrentState(Hero *hero_state) {
+    //this function changes character state depending on the hero_state
+    for (int i = 0; i < reaction_set.size(); i++){
+        if (hero_state->isInInventory(reaction_set[i])){
+            setCurrentState(i+1);
+        }
+    }
+}
+
+void Character::listDialogOptions(Hero *hero_state) {
+    std::cout<<"What do you wish to talk about with "<<getName()<<"?"<<std::endl;
+    int available_answers = 1;
+    for (auto i: event_chain[current_state]->getChain()) {
+        std::string possible_question = i->getQuestion();
+        //change the questions depending on the fear level
+        refactorString(possible_question, hero_state->getFear_level()/20);
+        std::cout<<available_answers<<") "<<possible_question<<std::endl;
+        available_answers++;
     }
 }

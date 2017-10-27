@@ -18,6 +18,8 @@ public:
 
     explicit NPC(const std::string &name): name(name){};
 
+    explicit NPC(std::string &name): name(name){};
+
     NPC(const std::string &name, const std::string &description): name(name), description(description) {};
 
     void setName(std::string &name) {
@@ -48,11 +50,11 @@ public:
     }
 
     virtual bool isAlive() {
-        if (hp){
+        if (hp > 0){
             return true;
         }
         else{
-            std::cout<<"Totally dead"<<std::endl;
+            std::cout<<getName()<<" is totally dead"<<std::endl;
             return false;
         }
     }

@@ -17,7 +17,6 @@ private:
 
     int strength;
     int fear_level = 0;
-    //int hp = 100;
 
     bool teleport = false;
 
@@ -87,6 +86,8 @@ public:
     void setTeleport(bool teleport) {
         Hero::teleport = teleport;
     }
+
+    void introduction() override;
 
     ~Hero();
 };

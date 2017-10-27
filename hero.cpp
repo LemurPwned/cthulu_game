@@ -7,7 +7,8 @@
 //initialize static variables
 int Hero::hero_count = 0;
 
-Hero::Hero(std::string &name) : name(name) {
+Hero::Hero(std::string &name) : NPC(name) {
+    Hero::introduction();
     Hero::hero_count++;
 }
 
@@ -72,4 +73,9 @@ Hero::Hero(Hero *object) {
 
 Hero *Hero::createSoul(Hero *hero) {
     return new Hero(hero);
+}
+
+void Hero::introduction() {
+    std::cout<<getName()<<std::endl;
+    std::cout<<"It's your name now"<<std::endl;
 }

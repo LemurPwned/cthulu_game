@@ -11,13 +11,7 @@
 #include "hero.h"
 #include "EventChain.h"
 
-class Character {
-private:
-    std::string name;
-    std::string description;
-
-    int hp = 100;
-
+class Character: public NPC {
 protected:
     std::vector<std::string> reaction_set;
 
@@ -28,9 +22,9 @@ protected:
 public:
     Character();
 
-    explicit Character(const std::string &name) : name(name) {};
+    explicit Character(const std::string &name) : NPC(name) {};
 
-    Character(const std::string &name, const std::string &desc) : name(name), description(desc) {
+    Character(const std::string &name, const std::string &desc) : NPC(name, desc) {
     };
 
     virtual ~Character();
@@ -65,41 +59,11 @@ public:
 
     virtual void introduction(Hero *hero_state);
 
-    virtual const std::string &getName() const {
-        return name;
-    }
+    void introduction() override;
 
-    virtual void setName(const std::string &name) {
-        Character::name = name;
-    }
+    void checkCurrentState(Hero *hero_state);
 
-    virtual int getHp() const {
-        return hp;
-    }
-
-    virtual void setHp(int hp) {
-        Character::hp = hp;
-        if (Character::hp < 0){
-            std::cout<<Character::name<<" has died"<<std::endl;
-        }
-    }
-
-    virtual bool isAlive() const {
-        if (hp < 0){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-
-    virtual const std::string &getDescription() const {
-        return description;
-    }
-
-    virtual void setDescription(const std::string &description) {
-        Character::description = description;
-    }
+    virtual void listDialogOptions(Hero *hero_state);
 
     void refactorString(std::string &text, int scaler);
 };

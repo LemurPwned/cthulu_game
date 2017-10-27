@@ -4,16 +4,12 @@
 
 #include "opponent.h"
 #include "Statistics.h"
-#include <random>
+#include "Randomizer.h"
 
 void Opponent::defend(Hero *hero_state) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution dist(1, 10);
-    //initialize c++11 random magic
     std::cout<<"You choose to take on defensive stance"<<std::endl;
-
-    int damage = getStrength()*dist(gen)/10 - hero_state->getStrength()*(dist(gen)/5);
+    int damage = getStrength()*Randomizer::generateRandomNumberFromInterval(1,10)/10 -\
+        hero_state->getStrength()*(Randomizer::generateRandomNumberFromInterval(1,10)/5);
     if (damage < 0) damage = 0;
     std::cout<<getName()<<" attacks and deals "<<damage<<" damage"<<std::endl;
     hero_state->setHp(hero_state->getHp()-damage);
@@ -24,13 +20,9 @@ void Opponent::defend(Hero *hero_state) {
 }
 
 void Opponent::retaliate(Hero *hero_state) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution dist(1, 5);
-    //initialize c++11 random magic
     int damage;
     if (hero_state->getStrength() < getStrength()){
-        damage = hero_state->getStrength()*dist(gen)/10;
+        damage = hero_state->getStrength()*Randomizer::generateRandomNumberFromInterval(1,5)/10;
         setHp(getHp()-damage);
         Statistics::addDamage_dealt(damage);
         if (!isAlive()){
@@ -40,13 +32,14 @@ void Opponent::retaliate(Hero *hero_state) {
         }
         std::cout<<"You're weaker than "<<getName()<<" so you'll receive penalty"<<std::endl;
         std::cout<<"Dealt "<<damage<<" damage!\n"<<std::endl;
-        damage = getStrength()*(1 + hero_state->getFear_level()*dist(gen)/10);
+        damage = getStrength()*(1 + hero_state->getFear_level()*\
+                                Randomizer::generateRandomNumberFromInterval(1,5)/10);
         hero_state->setHp(hero_state->getHp() - damage);
         Statistics::addDamaged_received(damage);
         std::cout<<getName()<<" retaliates! with "<<damage<<" damage points"<<std::endl;
     }
     else{
-        damage = hero_state->getStrength()*dist(gen)/10;
+        damage = hero_state->getStrength()*Randomizer::generateRandomNumberFromInterval(1,3)/10;
         setHp(getHp()-damage);
         Statistics::addDamage_dealt(damage);
         if (!isAlive()){
@@ -55,7 +48,7 @@ void Opponent::retaliate(Hero *hero_state) {
             return;
         }
         std::cout<<"Dealt "<<damage<<" damage!\n"<<std::endl;
-        damage = getStrength()*dist(gen)/10;
+        damage = getStrength()*Randomizer::generateRandomNumberFromInterval(1,5)/10;
         hero_state->setHp(hero_state->getHp() - damage);
         Statistics::addDamaged_received(damage);
         std::cout<<getName()<<" retaliates! with "<<damage<<" damage points"<<std::endl;
@@ -63,42 +56,20 @@ void Opponent::retaliate(Hero *hero_state) {
 }
 
 void Opponent::introduction(Hero *hero_state) {
-    for (int i = 0; i < reaction_set.size(); i++){
-        if (hero_state->isInInventory(reaction_set[i])){
-            setCurrentState(i+1);
-        }
-    }
-    //standard opponent introduction
-    std::cout<<"Your opponent's name is: "<<getName()<<std::endl;
-    if (!isAlive()) {
-        std::cout<<"He is totally dead"<<std::endl;
-        return;
-    }
-    std::cout<<getDescription()<<std::endl;
+    Character::checkCurrentState(hero_state);
+    Character::introduction();
 
     while(true){
-        if (!isAlive()) {
-            std::cout<<"He is totally dead"<<std::endl;
-            return;
-        }
+        if (!NPC::isAlive()) return;
         std::cout<<"What do you wish to do about "<<getName()<<"?"<<std::endl;
         //list dialogs here
         //check if dialogs exist?
-        int available_answers = 1;
-
-        for (auto i: event_chain[current_state]->getChain()) {
-            std::string possible_question = i->getQuestion();
-            //change the questions depending on the fear level
-            refactorString(possible_question, hero_state->getFear_level());
-            std::cout<<available_answers<<") "<<possible_question<<std::endl;
-            available_answers++;
-        }
-        std::cout<<"a) Attack"<<std::endl; // extra options for the opponent type
-        std::cout<<"d) Defend"<<std::endl;
+        Opponent::listDialogOptions(hero_state);
 
         char selection;
         std::cin>>selection;
-        int selected_dialog = selection - '0'; //convert to int, access to vector
+        //convert to int, access to vector
+        int selected_dialog = selection - '0';
 
         if (selected_dialog -1 < event_chain[current_state]->getChain().size()) {
             std::cout << "-" << event_chain[current_state]->\
@@ -143,5 +114,11 @@ void Opponent::introduction(Hero *hero_state) {
             std::cout<<"Invalid input "<<selection<<std::endl;
         }
     }
+}
+
+void Opponent::listDialogOptions(Hero *hero_state) {
+    Character::listDialogOptions(hero_state);
+    std::cout<<"a) Attack"<<std::endl; // extra options for the opponent type
+    std::cout<<"d) Defend"<<std::endl;
 }
 
