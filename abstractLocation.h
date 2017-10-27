@@ -15,7 +15,7 @@ private:
     std::string description;
 protected:
     std::vector<Character*> characters;
-    std::string teleport_dest;
+    std::string teleport_dest = "None";
 
 public:
     abstractLocation() = default;
