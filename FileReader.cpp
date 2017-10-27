@@ -6,9 +6,12 @@
 #include "opponent.h"
 #include "Statistics.h"
 #include "Randomizer.h"
+#include "arena.h"
+#include "spawn_opponent.h"
 #include <fstream>
 
-Location* FileReader::jsonLoadLocation(const std::string &filename){
+abstractLocation* FileReader::jsonLoadLocation(const std::string &filename){
+    abstractLocation *location = nullptr;
     Statistics::addLocations_visited();
     std::ifstream stream(getPath() + filename);
     nlohmann::json j;
@@ -18,7 +21,17 @@ Location* FileReader::jsonLoadLocation(const std::string &filename){
         description_to_write.append(desc_part);
         description_to_write.append("\n");
     }
-    Location *location = new Location(j["name"], description_to_write);
+    if ((!j["type"].is_null()) && (j["type"] == "arena")){
+        if (j["waves"].is_number()){
+            location = new Arena(j["name"], description_to_write, j["waves"]);
+        }
+        else{
+            std::cout<<"Invalid arena parameter"<<std::endl;
+        }
+    }
+    else{
+        location = new Location(j["name"], description_to_write);
+    }
     if (!j["teleport"].is_null()) {
         std::string destination = j["teleport"];
         location->setTeleportDestination(destination);
@@ -45,7 +58,9 @@ Character *FileReader::jsonLoadCharacter(const std::string &filename) {
     }
     else if (j["type"] == "mob"){
         character = new Opponent(j["name"], j["description"], j["strength"]);
-        //ugh such polymorphism
+    }
+    else if (j["type"] == "gal"){
+        character = new Spawn(j["name"], j["description"], j["strength"]);
     }
     else{
         character = nullptr;

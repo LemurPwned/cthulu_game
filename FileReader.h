@@ -22,7 +22,7 @@ public:
 
     explicit FileReader(const std::string folder_path): path(folder_path) {}
 
-    Location* jsonLoadLocation(const std::string &filename);
+    abstractLocation * jsonLoadLocation(const std::string &filename);
 
     Character* jsonLoadCharacter(const std::string &filename);
 
