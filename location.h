@@ -10,74 +10,18 @@
 #include <vector>
 #include "character.h"
 #include "hero.h"
+#include "abstractLocation.h"
 
-class Location{
-private:
-    std::string name;
-    std::string description;
-
-    int length;
-    int width;
-    bool status = false;
-
-    std::vector<std::vector<int>> space_grid;
-    std::vector<Character*> characters;
-
-    std::string teleport_dest = "None";
+class Location: public abstractLocation{
 public:
     Location(const std::string &name, const std::string &desc);
 
-    Location(const std::string &name, int length, int width);
-
-    void introduction();
+    void introduction() override ;
 
     void teleport(Hero *hero_state);
 
-    void setTeleportDestination(std::string teleport_destination){
-        teleport_dest = teleport_destination;
-    }
+    void listCharacters(Hero *hero_state) override;
 
-    void setDescription(const std::string &description) {
-        Location::description = description;
-    }
-
-    void addCharacters(Character *character){
-        characters.push_back(character);
-    }
-
-    void listCharacters(Hero *hero_state);
-
-    bool isStatus() const {
-        return status;
-    }
-
-    const std::string &getDescription() const {
-        return description;
-    }
-
-    void setStatus(bool status) {
-        Location::status = status;
-    }
-
-    void fillSpaceGrid();
-
-    void display();
-
-    const std::string &getName() const {
-        return name;
-    }
-
-    void setName(const std::string &name) {
-        Location::name = name;
-    }
-
-    int getLength() const {
-        return length;
-    }
-
-    int getWidth() const {
-        return width;
-    }
-
+    void listCharacterOptions();
 };
 #endif //CTHULU_GAME_LOCATION_H

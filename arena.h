@@ -6,6 +6,7 @@
 #define CTHULU_GAME_ARENA_H
 
 #include "abstractLocation.h"
+#include "spawn_opponent.h"
 
 class Arena: public abstractLocation{
 
@@ -21,6 +22,7 @@ public:
         //in this loop spawn enemies and manage the resources
         while(true){
             if(hero->isAlive() && waves > 0){
+                std::cout<<"WAVES TO GO: "<<waves<<std::endl;
                 if (!characters[0]->isAlive()){
                     return;
                 }
@@ -37,9 +39,13 @@ public:
         //do spawn opponents here
         std::cout<<"You face another opponent"<<std::endl;
         characters[0]->introduction(hero);
-        if (characters[0]->isAlive()){
-            std::cout<<"Enemy defeated"<<std::endl;
-            characters[0]->setHp(100);
+        if (!characters[0]->isAlive() && hero->isAlive()) {
+            std::cout << "Enemy defeated" << std::endl;
+            auto *tmp = (Spawn *) characters[0];
+            characters[0] = new Spawn(*tmp);
+        }
+        else if(!hero->isAlive()){
+            return;
         }
         else{
             std::cout<<"Chose to quit the arena"<<std::endl;

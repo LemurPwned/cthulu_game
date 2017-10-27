@@ -11,11 +11,11 @@
 
 class LevelAssembler{
 private:
-    std::vector<Location*> level_chain;
+    std::vector<abstractLocation*> level_chain;
 
     static int assemblers_count;
 
-    int num_locs = 3;
+    int num_locs = 4;
 
     LevelAssembler();
 public:
@@ -23,7 +23,7 @@ public:
 
     void createLevelChain();
 
-    Location* pickPlace();
+    abstractLocation * pickPlace();
 
     void gameLoop(Hero *hero);
 

@@ -27,6 +27,15 @@
           "answer": "Go to the shipyard, there's John. He'll know what to do."
         }
       ]
+    },
+    {
+      "id": 3,
+      "option": [
+        {
+          "question": "(you look at Ahab's place, it's empty)",
+          "answer": "(I should probably go, there is nothing for me here)..."
+        }
+      ]
     }
     ]
  }

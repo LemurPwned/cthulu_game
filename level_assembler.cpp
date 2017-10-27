@@ -16,7 +16,7 @@ LevelAssembler::LevelAssembler() {
 void LevelAssembler::gameLoop(Hero *state){
     while(true) {
         if (!state->isAlive()) break; // quit outer loop
-        Location *picked = pickPlace();
+        abstractLocation *picked = pickPlace();
         if (picked == nullptr){ //provides quitting capability
             break;
         }
@@ -27,7 +27,7 @@ void LevelAssembler::gameLoop(Hero *state){
 
 void LevelAssembler::loadGameFiles(FileReader &reader, std::string *list){
     for (int i = 0; i < num_locs ; ++i) {
-        Location *location_one = reader.jsonLoadLocation(list[i]);
+        abstractLocation *location_one = reader.jsonLoadLocation(list[i]);
         level_chain.push_back(location_one); //fill location chain
     }
 }
@@ -38,8 +38,8 @@ void LevelAssembler::createLevelChain() {
     FileReader reader(content_pack);
     //std::string hero_name = reader.processHeroName();
     std::string hero_name = "A stranger";
-    std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)"};
-
+    std::string locations_list[] = {R"(/Locations/Tavern)", R"(/Locations/Shipyard)", R"(/Locations/Cave)",
+                                    R"(/Locations/Bar)"};
     //initialize hero state
     Hero *hero = Hero::getHeroObject(hero_name); // get static initializer
     if (hero == nullptr) return; //quit if applicable
@@ -47,12 +47,13 @@ void LevelAssembler::createLevelChain() {
 
     Statistics *generals = Statistics::initializeStatistics(); //initialize local statistics
 
-    loadGameFiles(reader, locations_list); // red game files
+    loadGameFiles(reader, locations_list); // read game files
     gameLoop(hero); // run the loop
 
     std::cout<<(*generals)<<std::endl; //print out statistics before rolling credits
     //free the resources
     Hero *soul = Hero::createSoul(hero);
+    //used copying constructor to copy some traits into soul
 
     bonusLevel(reader, soul);
     //finally free everything
@@ -73,18 +74,19 @@ void LevelAssembler::bonusLevel(FileReader &reader, Hero *state){
         std::cout<<"You've ended your journey for good..."<<std::endl;
     }
     else{
-        std::cout<<"You have not deserved for a proper rest, die now"<<std::endl;
+        std::cout<<"You have not deserved a proper rest, die now"<<std::endl;
     }
 
 }
-Location* LevelAssembler::pickPlace(){
+
+abstractLocation* LevelAssembler::pickPlace(){
     std::cout<<"Where you choose to go?"<<std::endl;
     char selection;
     int selected_num;
     while(true){
         int i = 1;
         //display possible locations
-        for (Location *loc: level_chain) {
+        for (abstractLocation *loc: level_chain) {
             std::cout<<i<<") "<<loc->getName()<<std::endl;
             i++;
         }
