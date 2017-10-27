@@ -1,0 +1,8 @@
+{
+  "name": "Bar",
+  "type": "arena",
+  "waves": 3,
+  "description" : ["It's a local bar - as you enter a fruity punch lands on your face",
+    "You scream with delight as you throw yourself into a raging brawl"],
+  "characters": [{"path": "/Characters/Brawler"}]
+}

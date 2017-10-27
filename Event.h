@@ -32,9 +32,13 @@ public:
 
     Event(int eventId, std::string event_type, std::string question, std::string answer);
 
-    Event (int eventId, std::string event_type): eventId(eventId), event_type(event_type) {};
+    Event (int eventId, std::string event_type): eventId(eventId), event_type(event_type) {
+        effect = 0;
+    };
 
     Event (const Event &ev);
+
+    Event() = default;
 
     bool isTeleport() const{
         return teleport;
